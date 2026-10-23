@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Generated builds
+dist/
+.pack-stage/
+release/
+coverage/
+
+# Package/release outputs
+*.tgz
+*.zip
+*.sha256
+*_SHA256.txt
+SHA256SUMS.txt
+
+# Local / OS files
+*.log
+*.local
+.DS_Store
+Thumbs.db
