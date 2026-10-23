@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Using DCMS form packages in the DCMS React app</title>
+<style>
+  :root {
+    --bg: #f5f8f7;
+    --surface: #ffffff;
+    --ink: #14211d;
+    --muted: #5a6a64;
+    --line: #d9e4df;
+    --green: #0c6b4f;
+    --green-dark: #084b38;
+    --green-soft: #e5f4ed;
+    --blue: #1f5eff;
+    --blue-soft: #eaf0ff;
+    --amber: #8a5a00;
+    --amber-soft: #fff4dd;
+    --red: #a12a2a;
+    --red-soft: #fdeaea;
+    --code-bg: #0f1f1a;
+    --code-ink: #e3f1eb;
+    --radius: 14px;
+    --mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --sans: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  a { color: var(--green); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { font-family: var(--mono); font-size: .9em; }
+  p code, li code, td code {
+    background: #edf3f0;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: .08em .35em;
+    white-space: nowrap;
+  }
+  .hero {
+    background: linear-gradient(135deg, #072b21 0%, #0c5a43 55%, #14805f 100%);
+    color: #fff;
+    padding: 40px 22px 30px;
+  }
+  .hero-inner { max-width: 1060px; margin: 0 auto; }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: .74rem;
+    font-weight: 700;
+    opacity: .82;
+    margin: 0 0 8px;
+  }
+  .hero h1 { font-size: clamp(1.7rem, 4vw, 2.55rem); line-height: 1.15; margin: 0 0 12px; }
+  .hero p.lede { font-size: 1.02rem; max-width: 780px; margin: 0 0 18px; color: #d8f0e7; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: .82rem; color: #c5e6da; }
+  .meta span { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); padding: 3px 9px; border-radius: 999px; }
+  .layout {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 26px 20px 60px;
+    display: grid;
+    grid-template-columns: 255px minmax(0, 1fr);
+    gap: 26px;
+    align-items: start;
+  }
+  nav.toc {
+    position: sticky;
+    top: 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: .88rem;
+  }
+  nav.toc strong { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 8px; }
+  nav.toc ol { margin: 0; padding-left: 18px; }
+  nav.toc li { margin: 5px 0; }
+  main { min-width: 0; }
+  section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px clamp(16px, 3vw, 32px);
+    margin-bottom: 22px;
+    scroll-margin-top: 14px;
+  }
+  section > h2 {
+    font-size: 1.45rem;
+    margin: 0 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .step-label {
+    display: inline-block;
+    background: var(--green-soft);
+    color: var(--green);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 3px 10px;
+    margin-bottom: 8px;
+  }
+  h3 { font-size: 1.08rem; margin: 24px 0 8px; }
+  h4 { font-size: .96rem; margin: 18px 0 6px; }
+  p { margin: 8px 0 12px; }
+  ul, ol { margin: 8px 0 14px; padding-left: 24px; }
+  li { margin: 5px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: .9rem; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #eef5f2; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  tr:last-child td { border-bottom: none; }
+  .cmd {
+    position: relative;
+    margin: 12px 0 16px;
+    border-radius: 11px;
+    overflow: hidden;
+    background: var(--code-bg);
+  }
+  .cmd pre { margin: 0; padding: 15px 16px; padding-right: 74px; overflow-x: auto; }
+  .cmd code { color: var(--code-ink); font-size: .84rem; line-height: 1.55; white-space: pre; }
+  .copy {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    border: 1px solid #2f5548;
+    background: #193a2f;
+    color: #c8e5da;
+    font: 600 .7rem var(--sans);
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .copy:hover { background: #235242; }
+  .copy.done { background: var(--green); border-color: var(--green); color: #fff; }
+  .note, .warn, .tip {
+    border-left: 4px solid;
+    border-radius: 8px;
+    padding: 11px 14px;
+    margin: 14px 0;
+    font-size: .92rem;
+  }
+  .note { border-color: var(--blue); background: var(--blue-soft); }
+  .warn { border-color: #d99b1c; background: var(--amber-soft); color: #543700; }
+  .tip { border-color: var(--green); background: var(--green-soft); color: #0b4d32; }
+  .note strong, .warn strong, .tip strong { display: block; margin-bottom: 2px; }
+  .badge { display: inline-block; font-size: .72rem; font-weight: 700; border-radius: 999px; padding: 2px 8px; vertical-align: middle; }
+  .badge.ok { background: var(--green-soft); color: var(--green); }
+  .badge.warn { background: var(--amber-soft); color: var(--amber); }
+  .badge.no { background: var(--red-soft); color: var(--red); }
+  .prompt {
+    position: relative;
+    border: 1px solid #c9ded5;
+    border-radius: 11px;
+    background: #f0f8f4;
+    padding: 14px 16px;
+    margin: 12px 0 18px;
+  }
+  .prompt pre { margin: 0; white-space: pre-wrap; font-family: var(--mono); font-size: .82rem; line-height: 1.55; color: #17372d; }
+  .prompt .copy { top: 10px; right: 10px; background: #dcefe7; border-color: #b9d9cc; color: #1c5845; }
+  .prompt h4 { margin: 0 30px 6px 0; font-size: .88rem; color: #1c5845; }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; font-size: .86rem; }
+  .flow span.box { border: 1px solid var(--line); background: #fbfdfc; padding: 6px 10px; border-radius: 7px; }
+  .flow span.arrow { color: var(--muted); }
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding-left: 27px; position: relative; }
+  .checklist li::before { content: "✔"; position: absolute; left: 0; top: 0; color: var(--green); font-weight: 700; }
+  .filetree {
+    background: #f4faf7;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-family: var(--mono);
+    font-size: .83rem;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  footer { max-width: 1060px; margin: 0 auto; padding: 0 20px 50px; color: var(--muted); font-size: .84rem; }
+  @media (max-width: 920px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { position: static; }
+    nav.toc ol { columns: 2; }
+  }
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    .hero { background: #fff; color: #000; border-bottom: 2px solid #000; }
+    .hero p.lede, .meta { color: #333; }
+    .meta span { border-color: #bbb; color: #333; }
+    nav.toc { display: none; }
+    .layout { display: block; padding: 0; }
+    section { border: none; padding: 0 0 14px; break-inside: avoid; }
+    .copy { display: none; }
+    .cmd { background: #f2f2f2; }
+    .cmd code { color: #000; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">DCMS · React integration guide</p>
+    <h1>Use the custom form packages in the DCMS React app</h1>
+    <p class="lede">How <code>@dcms/form-rules</code> and <code>@dcms/form-rules-react</code> plug into the Create React App host at <code>D:\ALL PROJECTS\DCMS</code>: installation, the adapter layer, FormEditor authoring, Record evaluation, React 18 compatibility, and verification.</p>
+    <div class="meta">
+      <span>@dcms/form-rules 0.10.5</span>
+      <span>@dcms/form-rules-react 0.4.0-parity.6</span>
+      <span>React 18 · react-scripts 5</span>
+      <span>Prepared 23 Oct 2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <strong>Contents</strong>
+  <ol>
+    <li><a href="#boundary">Package boundaries</a></li>
+    <li><a href="#wiring">Current DCMS wiring</a></li>
+    <li><a href="#install">Install or update</a></li>
+    <li><a href="#config">Required app config</a></li>
+    <li><a href="#authoring">FormEditor authoring</a></li>
+    <li><a href="#record">Record evaluation</a></li>
+    <li><a href="#engine">Engine-only use</a></li>
+    <li><a href="#adapter">Adapter contract</a></li>
+    <li><a href="#react18">React 18 &amp; CRA</a></li>
+    <li><a href="#verify">Verification</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#prompts">AI prompts</a></li>
+    <li><a href="#cheatsheet">Cheat sheet</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============================================================ -->
+<section id="boundary">
+  <span class="step-label">Read first</span>
+  <h2>1. What each package is responsible for</h2>
+
+  <p>Do not re-implement rule logic in DCMS. The engine owns every formula, Required Keywords rule, validation row, and Submit decision. The React package owns presentation and Workbench state; DCMS owns records, permissions, persistence, and the workflow transaction.</p>
+
+  <table>
+    <thead><tr><th>Layer</th><th>Owns</th><th>Does not own</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>@dcms/form-rules</code><br><small>0.10.5</small></td>
+        <td>Chevrotain formula and Required Keywords parsing, the controlled Formula.js function registry, validation-row compilation, limits, diagnostics, Record evaluation, <code>canSubmit</code>/<code>canSave</code>, input guidance, dependency analysis.</td>
+        <td>React, DOM, persistence, authentication, workflow state.</td>
+      </tr>
+      <tr>
+        <td><code>@dcms/form-rules-react</code><br><small>0.4.0-parity.6</small></td>
+        <td><code>FormEditor</code>, <code>RecordForm</code>, <code>RecordField</code>, <code>FieldFeedback</code>, Workbench model conversion, stores, revision/package codecs, draft helpers, async evaluation controllers.</td>
+        <td>Rule semantics, Record persistence, DCMS API shapes, production workflow.</td>
+      </tr>
+      <tr>
+        <td>DCMS host</td>
+        <td>Form/Record API rows, permissions, Redux state, Lexical serialization, submit transaction, offline/Dexie storage.</td>
+        <td>Formula parsing or validation decisions.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>The one rule that prevents most integration bugs</strong>
+    DCMS rows stay in the DCMS shape. Convert to the Workbench model at the boundary, let the engine evaluate, then convert back. Never persist the Workbench model as the API payload.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="wiring">
+  <span class="step-label">Where it lives</span>
+  <h2>2. Current wiring in the DCMS app</h2>
+
+  <div class="filetree">D:\ALL PROJECTS\DCMS\
+├─ package.json                         file: vendor deps, React override, Jest mapper
+├─ vendor\
+│  ├─ dcms-form-rules-0.10.5.tgz
+│  └─ dcms-form-rules-react-0.4.0-parity.6.tgz
+└─ src\
+   ├─ common\FormBuilder\
+   │  ├─ dcmsFormAdapter.js             rows ↔ Workbench model, evaluation bridge
+   │  ├─ FormBuilder.js                 hosts the package FormEditor
+   │  ├─ prototypeFormEditor.css        package component styles (host-owned)
+   │  └─ FormRenderer\
+   │     ├─ RulesEvaluatedFormRenderer.js   hosts RecordField, live evaluation
+   │     └─ FormRenderer.css
+   └─ pages\Form\components\FormForm.js  page host, save/update workflow</div>
+
+  <div class="flow" aria-label="Integration flow">
+    <span class="box">DCMS API rows<br><small>form_type, validation_rule</small></span>
+    <span class="arrow">→</span>
+    <span class="box">dcmsFormAdapter<br><small>workbenchFormModelFromRows</small></span>
+    <span class="arrow">→</span>
+    <span class="box">FormEditor / RecordField<br><small>@dcms/form-rules-react</small></span>
+    <span class="arrow">→</span>
+    <span class="box">formDefinitionFromWorkbenchModel<br><small>compileForm + evaluateRecord</small></span>
+    <span class="arrow">→</span>
+    <span class="box">Valid / Invalid / blocking<br><small>canSubmit</small></span>
+  </div>
+
+  <p>The app already imports the packages in exactly three production files:</p>
+  <ul>
+    <li><code>dcmsFormAdapter.js</code> — <code>compileForm</code>, <code>evaluateRecord</code>, <code>formDefinitionFromWorkbenchModel</code>.</li>
+    <li><code>FormBuilder.js</code> — <code>FormEditor</code>.</li>
+    <li><code>RulesEvaluatedFormRenderer.js</code> — <code>RecordField</code>.</li>
+  </ul>
+
+  <div class="note">
+    <strong>This guide matches the installed baseline</strong>
+    The app currently resolves <code>@dcms/form-rules@0.10.5</code> and <code>@dcms/form-rules-react@0.4.0-parity.6</code>. If you install a newer release, keep the engine and adapter versions paired as described in the release guide.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="install">
+  <span class="step-label">Step 1</span>
+  <h2>3. Install or update the packages</h2>
+
+  <p>DCMS consumes local tarballs, not the npm registry. The full GitHub release workflow is in <code>GIT_PACKAGE_WORKFLOW.html</code> in the package repository. The consumer steps are:</p>
+
+  <h3>3.1 From a GitHub Release</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS"
+
+gh release download form-rules-v0.10.6 --repo YOUR-GITHUB-USER/dcms-form-packages --pattern "dcms-form-rules-0.10.6.tgz*" --dir vendor
+
+cd vendor
+sha256sum -c dcms-form-rules-0.10.6.tgz.sha256
+cd ..
+
+npm install "file:vendor/dcms-form-rules-0.10.6.tgz" --save-exact</code></pre></div>
+
+  <h3>3.2 From a local package build (before publishing)</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+npm ci
+npm run build
+npm run pack
+
+copy artifacts\dcms-form-rules-0.10.5.tgz "D:\ALL PROJECTS\DCMS\vendor\"
+copy artifacts\dcms-form-rules-react-0.4.0-parity.6.tgz "D:\ALL PROJECTS\DCMS\vendor\"
+
+cd "D:\ALL PROJECTS\DCMS"
+npm install "file:vendor/dcms-form-rules-0.10.5.tgz" --save-exact
+npm install "file:vendor/dcms-form-rules-react-0.4.0-parity.6.tgz" --save-exact</code></pre></div>
+
+  <div class="warn">
+    <strong>Do not reinstall a new tarball under an old version number</strong>
+    npm keys <code>file:</code> dependencies by version and integrity. If the package version did not change, npm may keep the old contents. Bump the package version, or force a reinstall with <code>npm install --force</code> for a local test only.
+  </div>
+
+  <h3>3.3 Confirm what is installed</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS"
+npm ls @dcms/form-rules @dcms/form-rules-react</code></pre></div>
+
+  <p>Expected shape of the output (the React package shows as <code>overridden</code> because of the React 18 pin):</p>
+  <div class="cmd"><pre><code>react-konva-app@0.1.0 D:\ALL PROJECTS\DCMS
+├─┬ @dcms/form-rules-react@0.4.0-parity.6 overridden
+│ └── @dcms/form-rules@0.10.5 deduped
+└── @dcms/form-rules@0.10.5</code></pre></div>
+
+  <h3>3.4 Do not copy the package source into DCMS</h3>
+  <p>Install the built tarball. Copying <code>packages/form-rules-react/src</code> into <code>src/</code> bypasses the package contract, duplicates dependencies, and makes the next update a manual merge. If you need to debug package source, use <code>npm link</code> temporarily and remove it before committing.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="config">
+  <span class="step-label">Step 2</span>
+  <h2>4. Required app configuration</h2>
+
+  <h3>4.1 Dependencies and the React 18 override</h3>
+  <p>The React adapter declares <code>react@19.3.0</code> as a peer. DCMS runs React 18. Keep the existing override so npm does not install a second React copy inside the adapter:</p>
+  <div class="cmd"><pre><code>"dependencies": {
+  "@dcms/form-rules": "file:vendor/dcms-form-rules-0.10.5.tgz",
+  "@dcms/form-rules-react": "file:vendor/dcms-form-rules-react-0.4.0-parity.6.tgz"
+},
+"overrides": {
+  "@dcms/form-rules-react": {
+    "react": "$react"
+  }
+}</code></pre></div>
+
+  <div class="warn">
+    <strong>Do not remove the override</strong>
+    Without it, npm may install React 19 under the adapter. Two React copies produce “Invalid hook call” and broken context consumers. The adapter is qualified on React 19.3.0; React 18 is a deliberate host override and must be verified in the app.
+  </div>
+
+  <h3>4.2 Jest module mapping</h3>
+  <p>CRA's Jest 27 cannot resolve the engine's ESM entry and cannot map the adapter's <code>exports</code> field. Keep this mapping for the engine's Formula.js dependency:</p>
+  <div class="cmd"><pre><code>"jest": {
+  "moduleNameMapper": {
+    "^@formulajs/formulajs$": "&lt;rootDir&gt;/node_modules/@dcms/form-rules/node_modules/@formulajs/formulajs/lib/cjs/index.cjs"
+  }
+}</code></pre></div>
+
+  <p>Adapter tests must virtual-mock the React package because CRA does not transform ESM inside <code>node_modules</code>:</p>
+  <div class="cmd"><pre><code>jest.mock(
+  "@dcms/form-rules-react",
+  () =&gt; ({
+    formDefinitionFromWorkbenchModel: (model) =&gt; ({
+      formId: model.formId,
+      version: model.formVersion,
+      fields: model.fields.map((field) =&gt; ({
+        id: field.id,
+        label: field.label,
+        valueType: field.valueType,
+        mustBeCorrect: field.mustBeCorrect,
+        validationRows: field.validationRows
+      }))
+    })
+  }),
+  { virtual: true }
+);</code></pre></div>
+
+  <div class="note">
+    <strong>Jest is not the integration test</strong>
+    The mock keeps adapter unit tests fast. Prove the real package with <code>react-scripts build</code> and a browser scenario; the engine itself is covered by 164 Node tests in the package repository.
+  </div>
+
+  <h3>4.3 Styles are host-owned</h3>
+  <p>The React package ships components, not CSS. DCMS already provides the Workbench styling:</p>
+  <ul>
+    <li><code>src/common/FormBuilder/prototypeFormEditor.css</code> for <code>FormEditor</code>, <code>ValidationRowEditor</code>, and <code>RecordField</code>.</li>
+    <li><code>src/common/FormBuilder/FormRenderer/FormRenderer.css</code> for the preview surface.</li>
+  </ul>
+  <p>Import them once in the components that render the package surfaces. Without them the components work but appear unstyled.</p>
+
+  <h3>4.4 Runtime versions</h3>
+  <table>
+    <thead><tr><th>Tool</th><th>Version / constraint</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Node</td><td>≥ 22.14.0 for building packages</td><td>The package engine declares this floor. The browser bundle also runs under the app's build toolchain.</td></tr>
+      <tr><td>React</td><td>18.x in DCMS</td><td>Host override; do not install a second React copy.</td></tr>
+      <tr><td>Adapter format</td><td>ESM only</td><td>CRA webpack handles it; Jest does not without mocking.</td></tr>
+      <tr><td>Engine format</td><td>ESM + CJS + types</td><td>Use the ESM import in app code.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<section id="authoring">
+  <span class="step-label">Step 3</span>
+  <h2>5. Form authoring with <code>FormEditor</code></h2>
+
+  <p><code>FormEditor</code> is a controlled component. It receives a Workbench model and emits the next model after every accepted authoring action. DCMS stores rows, so the adapter converts in both directions.</p>
+
+  <h3>5.1 Minimal host component</h3>
+  <p>Simplified from the real <code>src/common/FormBuilder/FormBuilder.js</code>:</p>
+  <div class="cmd"><pre><code>import { useMemo } from "react";
+import { FormEditor } from "@dcms/form-rules-react";
+import {
+  rowsFromWorkbenchFormModel,
+  validateModelOptions,
+  workbenchFormModelFromRows
+} from "./dcmsFormAdapter";
+
+export function FormFieldsEditor({ rows, setRows, formId, formVersion }) {
+  const model = useMemo(
+    () =&gt; workbenchFormModelFromRows(rows, { formId, formVersion }),
+    [rows, formId, formVersion]
+  );
+
+  const handleChange = (nextModel) =&gt; {
+    const optionError = validateModelOptions(nextModel);
+    if (optionError) {
+      return { accepted: false, error: optionError };
+    }
+
+    try {
+      setRows((previousRows) =&gt;
+        rowsFromWorkbenchFormModel(nextModel, previousRows)
+      );
+      return { accepted: true };
+    } catch (error) {
+      return {
+        accepted: false,
+        error: error instanceof Error ? error.message : String(error)
+      };
+    }
+  };
+
+  return (
+    &lt;FormEditor
+      model={model}
+      onChange={handleChange}
+      onEditingFieldChange={(fieldId) =&gt; {
+        // Optional: track the row whose authoring draft is open.
+      }}
+    /&gt;
+  );
+}</code></pre></div>
+
+  <h3>5.2 Supported <code>FormEditor</code> props</h3>
+  <table>
+    <thead><tr><th>Prop</th><th>Type</th><th>Required</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><code>model</code></td><td><code>WorkbenchFormModel</code></td><td><span class="badge ok">Yes</span></td><td>Must have <code>schemaVersion: 1</code>, unique field IDs, and a category-compatible <code>valueType</code>.</td></tr>
+      <tr><td><code>onChange</code></td><td><code>(model) =&gt; { accepted, error? }</code></td><td><span class="badge ok">Yes</span></td><td>Return <code>{ accepted: false, error }</code> to reject an edit and show the message.</td></tr>
+      <tr><td><code>onEditingFieldChange</code></td><td><code>(fieldId | null) =&gt; void</code></td><td>No</td><td>Reports the row whose edit draft is open.</td></tr>
+      <tr><td><code>acceptedRecordContext</code></td><td><code>Record&lt;string, { valueText, validationText, validationState }&gt;</code></td><td>No</td><td>Read-only Value/validation evidence beside each field.</td></tr>
+      <tr><td><code>disabled</code></td><td><code>boolean</code></td><td>No</td><td>Blocks opening or applying edits.</td></tr>
+      <tr><td><code>disabledReason</code></td><td><code>string</code></td><td>No</td><td>Message shown while disabled.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Props that are not part of the contract</strong>
+    Only the props above are implemented. Unknown props are ignored by JavaScript, so an unsupported callback will silently never fire. Verify against <code>dist/FormEditor.d.ts</code> after each package update.
+  </div>
+
+  <h3>5.3 Build the read-only evidence columns (optional)</h3>
+  <p>To show the accepted Value and validation status in the editor, build the context from the current rows and pass it in:</p>
+  <div class="cmd"><pre><code>import { useMemo } from "react";
+import { buildAcceptedRecordContext } from "./dcmsFormAdapter";
+
+const acceptedRecordContext = useMemo(
+  () =&gt; buildAcceptedRecordContext(rows, model),
+  [rows, model]
+);
+
+&lt;FormEditor
+  model={model}
+  onChange={handleChange}
+  acceptedRecordContext={acceptedRecordContext}
+/&gt;</code></pre></div>
+
+  <h3>5.4 What happens on each edit</h3>
+  <ol>
+    <li>The author edits a label, category, option, must-be-correct flag, or validation row.</li>
+    <li><code>FormEditor</code> emits a new Workbench model.</li>
+    <li><code>validateModelOptions</code> enforces DCMS list-field guarantees (non-empty, unique options).</li>
+    <li><code>rowsFromWorkbenchFormModel</code> maps the model back to DCMS rows, preserving row <code>_id</code>, <code>form_type</code> names, and API <code>form_type_ref</code> when <code>formTypes</code> is supplied.</li>
+    <li>Returning <code>{ accepted: true }</code> lets the editor close the draft; returning an error keeps the edit open.</li>
+  </ol>
+</section>
+
+<!-- ============================================================ -->
+<section id="record">
+  <span class="step-label">Step 4</span>
+  <h2>6. Record rendering and live evaluation</h2>
+
+  <p>Evaluation needs three inputs: Workbench fields, a value map keyed by field ID, and the engine result. The package does not persist values.</p>
+
+  <h3>6.1 Full Record surface with <code>RecordForm</code></h3>
+  <div class="cmd"><pre><code>import { useMemo, useState } from "react";
+import { RecordForm } from "@dcms/form-rules-react";
+import {
+  evaluateFormRows,
+  valuesMapFromRows,
+  workbenchFormModelFromRows
+} from "./dcmsFormAdapter";
+
+export function RecordSurface({ rows, onSubmit }) {
+  const model = useMemo(() =&gt; workbenchFormModelFromRows(rows, {}), [rows]);
+
+  // Seed existing values from the DCMS rows; new records start empty.
+  const [values, setValues] = useState(() =&gt; valuesMapFromRows(rows, model));
+
+  const evaluation = useMemo(
+    () =&gt; evaluateFormRows(rows, values),
+    [rows, values]
+  );
+
+  return (
+    &lt;&gt;
+      &lt;RecordForm
+        fields={model.fields}
+        values={values}
+        evaluation={evaluation}
+        onValueChange={(fieldId, value) =&gt;
+          setValues((previous) =&gt; {
+            const next = new Map(previous);
+            next.set(fieldId, value);
+            return next;
+          })
+        }
+      /&gt;
+
+      &lt;button
+        type="button"
+        disabled={!evaluation?.canSubmit}
+        onClick={() =&gt; onSubmit(values)}
+      &gt;
+        Submit
+      &lt;/button&gt;
+    &lt;/&gt;
+  );
+}</code></pre></div>
+
+  <div class="tip">
+    <strong>Gate Submit on the engine, not on local checks</strong>
+    <code>evaluation.canSubmit</code> already accounts for Must Be Correct fields, blocking rows, and evaluation errors. <code>canSave</code> is the separate Draft-save gate. Do not infer eligibility from <code>invalidFieldIds.length</code>.
+  </div>
+
+  <h3>6.2 Custom layout with <code>RecordField</code></h3>
+  <p>Use <code>RecordField</code> when DCMS needs its own layout. This is what <code>RulesEvaluatedFormRenderer.js</code> does:</p>
+  <div class="cmd"><pre><code>import { RecordField } from "@dcms/form-rules-react";
+
+{model.fields.map((field) =&gt; (
+  &lt;RecordField
+    key={field.id}
+    field={field}
+    value={values.get(field.id)}
+    result={evaluation?.values.get(field.id)}
+    selected={selectedFieldId === field.id}
+    onFocus={() =&gt; setSelectedFieldId(field.id)}
+    onChange={(value) =&gt;
+      setValues((previous) =&gt; {
+        const next = new Map(previous);
+        next.set(field.id, value);
+        return next;
+      })
+    }
+  /&gt;
+))}</code></pre></div>
+
+  <table>
+    <thead><tr><th><code>RecordField</code> prop</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>field</code></td><td>One <code>WorkbenchFieldModel</code>; its <code>category</code> selects the input control.</td></tr>
+      <tr><td><code>value</code></td><td>Source value: number/string, or an array for Radio/Checkbox. Missing means unfilled.</td></tr>
+      <tr><td><code>result</code></td><td>The engine's <code>FieldEvaluation</code> for this field; drives valid/invalid feedback and guidance.</td></tr>
+      <tr><td><code>onChange</code></td><td>Receives the normalized value for this field.</td></tr>
+      <tr><td><code>onFocus</code>, <code>selected</code></td><td>Optional focus/selection styling and guidance targeting.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.3 Reading feedback</h3>
+  <div class="cmd"><pre><code>const result = evaluation?.values.get(fieldId);
+
+result.validationState;   // "valid" | "invalid" | "warning" | "blocking" | ...
+result.evaluationState;   // "ok" | "error" | ...
+result.inputGuidance;     // { display, ... } acceptable-input text
+result.failureDetails;    // row-level failure evidence
+result.evaluationErrorDetails; // runtime calculation errors</code></pre></div>
+
+  <p>The adapter's <code>acceptedValidationContext(result)</code> turns these states into the short labels used by the DCMS UI (<code>Valid</code>, <code>Invalid — blocking</code>, <code>Invalid — warning</code>, <code>Evaluation error — …</code>).</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="engine">
+  <span class="step-label">Step 5</span>
+  <h2>7. Engine-only use (no React)</h2>
+
+  <p>For server-side checks, tests, or non-React surfaces, use the engine directly. The engine is the only authority; the React package is optional.</p>
+
+  <h3>7.1 Compile and evaluate with a <code>Map</code></h3>
+  <div class="cmd"><pre><code>import { compileForm, evaluateRecord } from "@dcms/form-rules";
+
+const definition = {
+  formId: "temperature",
+  version: 1,
+  fields: [
+    {
+      id: "f",
+      label: "Temperature F",
+      valueType: "number",
+      mustBeCorrect: true,
+      validationRows: [
+        {
+          id: "range",
+          expression: "(VALUE-32)*5/9",
+          criteria: "number_less_than",
+          keyword: 105
+        }
+      ]
+    }
+  ]
+};
+
+const plan = compileForm(definition);
+const result = evaluateRecord(plan, new Map([["f", 212]]));
+
+console.log(result.canSubmit);          // true
+console.log(result.values.get("f").validationState); // "valid"</code></pre></div>
+
+  <h3>7.2 JSON payload contract</h3>
+  <p>If the payload already has the versioned Record shape, use <code>evaluateRecordPayload</code>:</p>
+  <div class="cmd"><pre><code>import { compileForm, evaluateRecordPayload } from "@dcms/form-rules";
+
+const plan = compileForm(definition);
+const json = evaluateRecordPayload(plan, {
+  formId: "temperature",
+  formVersion: 1,
+  values: { f: 212 }
+});
+
+console.log(json.canSubmit, json.fields.f.validationState);</code></pre></div>
+
+  <h3>7.3 From DCMS rows</h3>
+  <p>Use the adapter, not a hand-built definition:</p>
+  <div class="cmd"><pre><code>import {
+  evaluateFormRows,
+  workbenchFormModelFromRows
+} from "./dcmsFormAdapter";
+
+const model = workbenchFormModelFromRows(rows, {
+  formId: form.form_id,
+  formVersion: form.version
+});
+
+const evaluation = evaluateFormRows(rows, valuesMap);
+// evaluation is null when the definition cannot compile; check and log.</code></pre></div>
+
+  <div class="warn">
+    <strong><code>evaluateFormRows</code> returns <code>null</code> instead of throwing</strong>
+    A malformed definition or incompatible value is logged with <code>[dcmsFormAdapter] rule evaluation unavailable</code> and the UI should fail closed (block Submit), not silently allow it.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="adapter">
+  <span class="step-label">Reference</span>
+  <h2>8. The adapter contract</h2>
+
+  <p><code>src/common/FormBuilder/dcmsFormAdapter.js</code> is the only place that knows both shapes. Keep conversions there; do not spread them across components.</p>
+
+  <table>
+    <thead><tr><th>Function</th><th>Direction</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><code>workbenchFormModelFromRows(rows, { formId, formVersion })</code></td><td>rows → model</td><td>Build the controlled <code>FormEditor</code>/<code>RecordField</code> model.</td></tr>
+      <tr><td><code>fieldModelFromRow(row, index)</code></td><td>row → field</td><td>One field; field ID comes from the row <code>_id</code> or index.</td></tr>
+      <tr><td><code>rowsFromWorkbenchFormModel(model, previousRows, { formTypes })</code></td><td>model → rows</td><td>Persist authoring edits; pass form types so <code>form_type_ref</code> resolves.</td></tr>
+      <tr><td><code>evaluateFormRows(rows, values)</code></td><td>rows + values → evaluation</td><td>Compile and evaluate; returns <code>null</code> on compilation failure.</td></tr>
+      <tr><td><code>valuesMapFromRows(rows, model)</code></td><td>rows → Map</td><td>Seed existing Record values.</td></tr>
+      <tr><td><code>evaluationValueForField(field, row)</code></td><td>row → value</td><td>Normalize legacy scalar selection values into arrays.</td></tr>
+      <tr><td><code>dcmsValueFromValueText(category, text)</code></td><td>text → value</td><td>Value-column entry: Number, Text, Radio/Checkbox comma lists.</td></tr>
+      <tr><td><code>acceptedValidationContext(result)</code></td><td>evaluation → label</td><td>Short validation text/state for the UI.</td></tr>
+      <tr><td><code>buildAcceptedRecordContext(rows, model)</code></td><td>rows → context map</td><td>Read-only Value/status columns for <code>FormEditor</code>.</td></tr>
+      <tr><td><code>normalizeRuleReferences(rows, model)</code></td><td>rows → rows</td><td>Resolve <code>FIELD("label")</code> aliases to engine field IDs for evaluation only.</td></tr>
+      <tr><td><code>criteriaToValue</code> / <code>criteriaToLabel</code></td><td>label ↔ enum</td><td>DCMS stores human labels; the engine uses stable enum values.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>8.1 Model shape</h3>
+  <div class="cmd"><pre><code>{
+  schemaVersion: 1,
+  formId: "form-123",
+  formVersion: 1,
+  fields: [
+    {
+      id: "f1",
+      category: "Number",          // Radio | Number | Text | Rich Text | Checkbox
+      label: "Pressure",
+      options: [],
+      mustBeCorrect: true,
+      valueType: "number",         // Number → number, everything else → string
+      validationRows: [
+        {
+          id: "r1",
+          criteria: "number_less_than", // engine enum, not the DCMS label
+          keyword: 105,
+          expression: "(VALUE-32)*5/9"  // optional
+        }
+      ],
+      unit: "°C"                    // optional
+    }
+  ]
+}</code></pre></div>
+
+  <h3>8.2 Category ↔ value type</h3>
+  <table>
+    <thead><tr><th>Category</th><th><code>valueType</code></th><th>Value shape</th><th>Typical DCMS form type</th></tr></thead>
+    <tbody>
+      <tr><td><code>Number</code></td><td><code>"number"</code></td><td>finite number</td><td>Number</td></tr>
+      <tr><td><code>Text</code></td><td><code>"string"</code></td><td>string</td><td>Text</td></tr>
+      <tr><td><code>Rich Text</code></td><td><code>"string"</code></td><td>string / HTML</td><td>Rich Text</td></tr>
+      <tr><td><code>Radio</code></td><td><code>"string"</code></td><td>string or string[] as stored; the adapter normalizes selection values for the engine</td><td>Radio List</td></tr>
+      <tr><td><code>Checkbox</code></td><td><code>"string"</code></td><td>string array</td><td>Checkbox List</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Do not pass DCMS labels to the engine</strong>
+    The engine's <code>criteria</code> values are enums such as <code>number_less_than</code>, <code>selection_values_include_all</code>, <code>required_keywords</code>. The adapter maps <code>"Number Less Than"</code> and friends. Bypassing the adapter is the usual cause of “unknown criteria” compile failures.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="react18">
+  <span class="step-label">Compatibility</span>
+  <h2>9. React 18 and Create React App constraints</h2>
+
+  <table>
+    <thead><tr><th>Constraint</th><th>What happens</th><th>What to do</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Adapter peer is React 19.3.0</td>
+        <td>npm may report <code>ERESOLVE</code> or install a second React.</td>
+        <td>Keep the <code>overrides</code> pin. Use <code>--legacy-peer-deps</code> only as a last resort.</td>
+      </tr>
+      <tr>
+        <td>Adapter is ESM-only</td>
+        <td>CRA webpack builds it; CRA Jest 27 cannot transform it.</td>
+        <td>Virtual-mock it in unit tests; prove real behavior with a production build and browser flow.</td>
+      </tr>
+      <tr>
+        <td>No CSS in the package</td>
+        <td>Components render but look broken.</td>
+        <td>Import <code>prototypeFormEditor.css</code> and <code>FormRenderer.css</code> in the host.</td>
+      </tr>
+      <tr>
+        <td>Engine is large (Chevrotain + Formula.js)</td>
+        <td>CRA warns about the main chunk size.</td>
+        <td>Accept the warning or lazy-load the Form Builder route with <code>React.lazy</code>; do not duplicate the engine.</td>
+      </tr>
+      <tr>
+        <td>Package state is in-memory</td>
+        <td>Workbench stores do not persist.</td>
+        <td>DCMS Redux/API remains the source of truth; save rows, not package snapshots.</td>
+      </tr>
+      <tr>
+        <td>Browser evaluation is interactive feedback</td>
+        <td>A user can alter submitted values client-side.</td>
+        <td>Reevaluate the authoritative source values on the server before committing the workflow transaction.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>9.1 Import boundaries</h3>
+  <div class="cmd"><pre><code>// App code: import the public package entry only.
+import { FormEditor, RecordField, RecordForm } from "@dcms/form-rules-react";
+import { compileForm, evaluateRecord } from "@dcms/form-rules";
+
+// Do not import internals:
+// import { something } from "@dcms/form-rules-react/dist/..."   ❌
+// import ... from "../../node_modules/@dcms/..."                 ❌</code></pre></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="verify">
+  <span class="step-label">Proof</span>
+  <h2>10. Verification checklist</h2>
+
+  <h3>Build and unit level</h3>
+  <ul class="checklist">
+    <li><code>npm ls @dcms/form-rules @dcms/form-rules-react</code> shows the expected versions and no invalid peer.</li>
+    <li><code>npm run build:clientdev</code> completes without module-resolution errors.</li>
+    <li><code>CI=true npm test -- --watchAll=false src/common/FormBuilder</code> passes.</li>
+    <li>No console warning about duplicate React or invalid hook calls.</li>
+  </ul>
+
+  <h3>Form Builder scenario</h3>
+  <ol>
+    <li>Open a Form page and add a <strong>Number</strong> field.</li>
+    <li>Add a validation row with expression <code>(VALUE-32)*5/9</code>, criterion <strong>Number Less Than</strong>, keyword <code>105</code>.</li>
+    <li>Enter Value <code>212</code>: the row shows <strong>Valid</strong> and Submit is permitted.</li>
+    <li>Enter Value <code>300</code>: the row shows <strong>Invalid — blocking</strong> and Submit is blocked.</li>
+    <li>Switch the category to Radio, add options, and confirm option validation rejects duplicates or blanks.</li>
+    <li>Save and reopen the form: rows, <code>form_type_ref</code>, and rules survive the round trip.</li>
+  </ol>
+
+  <h3>Record/preview scenario</h3>
+  <ol>
+    <li>Load an existing Record and confirm values are seeded from the rows.</li>
+    <li>Type an out-of-range value and confirm per-field feedback and selected-field guidance update.</li>
+    <li>Clear a Must Be Correct field and confirm Submit stays blocked.</li>
+    <li>Confirm <code>canSave</code> still permits Draft save when only value validation fails.</li>
+  </ol>
+
+  <div class="tip">
+    <strong>Regression test the boundary, not the engine</strong>
+    Add adapter tests for rows → model → rows and for the criteria label ↔ enum conversion. The engine already has its own 164 Node tests; duplicating formula tests in Jest adds cost without new coverage.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="troubleshooting">
+  <span class="step-label">When it fails</span>
+  <h2>11. Troubleshooting</h2>
+
+  <table>
+    <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>ERESOLVE</code> naming <code>react@19.3.0</code></td>
+        <td>Adapter peer vs DCMS React 18.</td>
+        <td>Restore the <code>overrides</code> pin. Confirm with <code>npm ls react</code> that only one React is installed.</td>
+      </tr>
+      <tr>
+        <td>“Invalid hook call” or context reads <code>null</code></td>
+        <td>Two React copies (usually under the adapter).</td>
+        <td>Remove <code>node_modules</code> and reinstall with the override. Check <code>npm ls react</code> for a nested 19.x.</td>
+      </tr>
+      <tr>
+        <td>Jest: <code>Cannot use import statement outside a module</code></td>
+        <td>CRA Jest ignores ESM in <code>node_modules</code>.</td>
+        <td>Use the virtual mock shown in section 4.2; do not add the package to <code>transformIgnorePatterns</code> just for tests.</td>
+      </tr>
+      <tr>
+        <td>Jest: cannot resolve <code>@dcms/form-rules-react</code> <code>exports</code></td>
+        <td>Jest 27 does not understand the package export map.</td>
+        <td>Mock the module in adapter tests. Integration is proved by the CRA build/browser.</td>
+      </tr>
+      <tr>
+        <td><code>formDefinitionFromWorkbenchModel</code> throws “requires valueType …”</td>
+        <td>Category and <code>valueType</code> disagree (e.g., Number + string).</td>
+        <td>Use <code>valueType: "number"</code> for <code>Number</code>; <code>"string"</code> for all other categories. The adapter does this for you.</td>
+      </tr>
+      <tr>
+        <td>Throws “Duplicate Workbench field ID”</td>
+        <td>Two DCMS rows resolved to the same field ID.</td>
+        <td>Check row <code>_id</code>/index uniqueness; do not derive IDs from labels.</td>
+      </tr>
+      <tr>
+        <td>Rules “not evaluated” and adapter logs a warning</td>
+        <td>The engine rejected the definition (bad criteria, expression, or required keyword).</td>
+        <td>Read the console error; fix the row. Keep Submit blocked when evaluation is <code>null</code>.</td>
+      </tr>
+      <tr>
+        <td>Package changes are not visible in the app</td>
+        <td>Same version reinstalled from a cached <code>file:</code> tarball.</td>
+        <td>Bump the package version and reinstall; for a local test use <code>npm install --force</code>, then restart CRA.</td>
+      </tr>
+      <tr>
+        <td>Styles missing or visually different</td>
+        <td>Package CSS is not bundled.</td>
+        <td>Import <code>prototypeFormEditor.css</code> / <code>FormRenderer.css</code>; check the form container classes.</td>
+      </tr>
+      <tr>
+        <td>Submit allowed with invalid data</td>
+        <td>Host checks instead of <code>evaluation.canSubmit</code>, or evaluation returned <code>null</code> and was ignored.</td>
+        <td>Gate on the engine result and fail closed on <code>null</code>.</td>
+      </tr>
+      <tr>
+        <td>Build succeeds but browser shows stale bundle</td>
+        <td>CRA dev server did not pick up a <code>node_modules</code> change.</td>
+        <td>Stop the dev server, reinstall the tarball, run <code>npm start</code> again.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<section id="prompts">
+  <span class="step-label">Copy / paste</span>
+  <h2>12. AI prompts for integration work</h2>
+
+  <p>Use these with an assistant that can open <code>D:\ALL PROJECTS\DCMS</code>. Replace placeholders, and require a diff plus verification output before accepting changes.</p>
+
+  <div class="prompt">
+    <h4>Prompt A — integrate FormEditor into a DCMS page</h4>
+    <pre>You are working in D:\ALL PROJECTS\DCMS, a Create React App (React 18) that consumes @dcms/form-rules 0.10.5 and @dcms/form-rules-react 0.4.0-parity.6 from vendor/ tarballs.
+
+Task: render the package FormEditor inside <component-path> using the existing adapter at src/common/FormBuilder/dcmsFormAdapter.js.
+
+Requirements:
+- Keep DCMS API rows as the source of truth; convert with workbenchFormModelFromRows and rowsFromWorkbenchFormModel.
+- Implement onChange so it returns { accepted: true } or { accepted: false, error } and validates options with validateModelOptions.
+- Do not duplicate criteria-label mapping or rule logic in the component.
+- Do not add package source files to src/ and do not upgrade React.
+- Import the existing prototypeFormEditor.css.
+
+First show the proposed diff and the exact props you will pass. Then run npm run build:clientdev and report the result. Do not modify unrelated files.</pre>
+  </div>
+
+  <div class="prompt">
+    <h4>Prompt B — review an adapter or evaluation change</h4>
+    <pre>Review the current diff in D:\ALL PROJECTS\DCMS, focusing on src/common/FormBuilder/dcmsFormAdapter.js and any component that consumes @dcms/form-rules or @dcms/form-rules-react.
+
+Check:
+- Are DCMS criteria labels still converted to engine enums exactly once?
+- Does every path that renders RecordField supply values, an engine evaluation, and a value change handler?
+- Is Submit gated only by evaluation.canSubmit, with null evaluation failing closed?
+- Could a legacy scalar Radio/Checkbox value break evaluation?
+- Are field IDs stable across rows → model → rows?
+- Does the change introduce a second React copy, a direct dist import, or rule logic outside the engine?
+
+Return a prioritized risk list with file/line references and proposed tests. Do not edit yet.</pre>
+  </div>
+
+  <div class="prompt">
+    <h4>Prompt C — diagnose a CRA/Jest ESM failure</h4>
+    <pre>In D:\ALL PROJECTS\DCMS, the error is: <paste exact error>.
+
+Context: @dcms/form-rules-react is ESM-only with an exports map; CRA uses Jest 27; adapter tests virtual-mock the package. The app runs React 18 while the adapter declares React 19.3.0 as a peer, pinned through overrides.
+
+Find the root cause without weakening tests or removing type safety. Explain why the error happens, show the smallest fix that preserves the package boundary, and list the commands to prove it (build, adapter tests, and the affected form flow). Do not add transformIgnorePatterns or --legacy-peer-deps unless you first explain the tradeoff.</pre>
+  </div>
+
+  <div class="prompt">
+    <h4>Prompt D — add adapter regression tests</h4>
+    <pre>Add Jest tests under src/common/FormBuilder/__tests__ for the rows ↔ Workbench model boundary.
+
+Cover:
+- A Number row with an expression and a Number Less Than keyword round-trips without losing the expression.
+- Radio/Checkbox rows preserve option arrays and normalize legacy scalar stored values.
+- FIELD("Label") aliases resolve for evaluation but the authored expression text is unchanged.
+- Blank Value text clears to null; selection text splits on commas.
+- Invalid options are rejected by validateModelOptions.
+
+Use the existing virtual mock pattern for @dcms/form-rules-react. Run CI=true npm test -- --watchAll=false src/common/FormBuilder and report the result. Do not change production behavior to make tests pass.</pre>
+  </div>
+
+  <div class="prompt">
+    <h4>Prompt E — verify a package upgrade inside DCMS</h4>
+    <pre>In D:\ALL PROJECTS\DCMS, verify the upgrade to @dcms/form-rules <version> and @dcms/form-rules-react <version> from vendor/.
+
+Steps:
+1. Confirm every downloaded tarball matches its .sha256 sidecar.
+2. Run npm ls @dcms/form-rules @dcms/form-rules-react react and check for duplicates or invalid peers.
+3. Confirm package.json still has the React override and the Jest moduleNameMapper.
+4. Run npm run build:clientdev and CI=true npm test -- --watchAll=false src/common/FormBuilder.
+5. List the package exports actually used by the app and compare them with the new dist/*.d.ts.
+
+Report any removed or changed export before proposing code changes. Do not upgrade React or remove the override.</pre>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="cheatsheet">
+  <span class="step-label">Quick reference</span>
+  <h2>13. Command and import cheat sheet</h2>
+
+  <table>
+    <thead><tr><th>Goal</th><th>Command / import</th></tr></thead>
+    <tbody>
+      <tr><td>Install a released engine tarball</td><td><code>npm install "file:vendor/dcms-form-rules-&lt;version&gt;.tgz" --save-exact</code></td></tr>
+      <tr><td>Install a released adapter tarball</td><td><code>npm install "file:vendor/dcms-form-rules-react-&lt;version&gt;.tgz" --save-exact</code></td></tr>
+      <tr><td>Check installed versions</td><td><code>npm ls @dcms/form-rules @dcms/form-rules-react react</code></td></tr>
+      <tr><td>Development build</td><td><code>npm run build:clientdev</code></td></tr>
+      <tr><td>Adapter tests</td><td><code>CI=true npm test -- --watchAll=false src/common/FormBuilder</code></td></tr>
+      <tr><td>Authoring component</td><td><code>import { FormEditor } from "@dcms/form-rules-react";</code></td></tr>
+      <tr><td>Record components</td><td><code>import { RecordForm, RecordField, FieldFeedback } from "@dcms/form-rules-react";</code></td></tr>
+      <tr><td>Model conversion</td><td><code>import { formDefinitionFromWorkbenchModel } from "@dcms/form-rules-react";</code></td></tr>
+      <tr><td>Engine compile/evaluate</td><td><code>import { compileForm, evaluateRecord, evaluateRecordPayload } from "@dcms/form-rules";</code></td></tr>
+      <tr><td>Rows → model</td><td><code>workbenchFormModelFromRows(rows, { formId, formVersion })</code></td></tr>
+      <tr><td>Model → rows</td><td><code>rowsFromWorkbenchFormModel(model, previousRows, { formTypes })</code></td></tr>
+      <tr><td>Evaluate rows</td><td><code>evaluateFormRows(rows, valuesMap)</code></td></tr>
+      <tr><td>Submit gate</td><td><code>evaluation?.canSubmit === true</code></td></tr>
+      <tr><td>Draft-save gate</td><td><code>evaluation?.canSave === true</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Full lifecycle</strong>
+    For creating the repository, branching customizations, building tarballs, and publishing GitHub Releases, open <code>GIT_PACKAGE_WORKFLOW.html</code> in <code>D:\ALL PROJECTS\DCMS-form-packages</code>. This guide starts after a tarball exists.
+  </div>
+
+  <div class="tip">
+    <strong>The shortest reliable integration</strong>
+    <code>rows → workbenchFormModelFromRows → FormEditor/RecordField → evaluateFormRows → canSubmit → DCMS save</code>. Everything else is presentation.
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <p>DCMS React integration guide · <code>@dcms/form-rules 0.10.5</code> · <code>@dcms/form-rules-react 0.4.0-parity.6</code> · Host: <code>D:\ALL PROJECTS\DCMS</code> · Source: <code>D:\ALL PROJECTS\DCMS-form-packages</code></p>
+</footer>
+
+<script>
+  document.querySelectorAll(".cmd, .prompt").forEach(function (block) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "copy";
+    button.textContent = "Copy";
+    button.addEventListener("click", function () {
+      var text = block.querySelector("pre").innerText;
+      function done() {
+        button.textContent = "Copied";
+        button.classList.add("done");
+        setTimeout(function () {
+          button.textContent = "Copy";
+          button.classList.remove("done");
+        }, 1600);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, function () {
+          fallback(text);
+        });
+      } else {
+        fallback(text);
+      }
+      function fallback(value) {
+        var area = document.createElement("textarea");
+        area.value = value;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand("copy"); done(); } catch (error) { button.textContent = "Select manually"; }
+        document.body.removeChild(area);
+      }
+    });
+    block.appendChild(button);
+  });
+</script>
+
+</body>
+</html>

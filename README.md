@@ -65,5 +65,9 @@ without resolving the engine's runtime tree from the registry.
 5. In the DCMS app, copy the assets into `vendor/`, update `package.json`, run
    `npm install`, then build.
 
-Full commands, verification steps, troubleshooting and AI prompts are in
+Full release commands, verification steps, troubleshooting and AI prompts are in
 [`GIT_PACKAGE_WORKFLOW.html`](./GIT_PACKAGE_WORKFLOW.html).
+
+App-level integration (installation, adapter, `FormEditor`, `RecordField`,
+React 18/CRA constraints, verification and AI prompts) is in
+[`DCMS_REACT_APP_GUIDE.html`](./DCMS_REACT_APP_GUIDE.html).
