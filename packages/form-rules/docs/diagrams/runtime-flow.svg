@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="430" viewBox="0 0 1000 430">
+  <style>
+    .box{fill:#f8fafc;stroke:#475569;stroke-width:2;rx:11;ry:11}.blue{fill:#e8f1fb;stroke:#2f6690;stroke-width:2;rx:11;ry:11}.green{fill:#eef8f1;stroke:#4d7c5b;stroke-width:2;rx:11;ry:11}.txt{font:17px Arial,sans-serif;fill:#1f2937}.small{font:14px Arial,sans-serif;fill:#475569}.arrow{stroke:#64748b;stroke-width:2.4;fill:none;marker-end:url(#a)}</style>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker></defs>
+  <text class="txt" x="500" y="30" text-anchor="middle">Form load / definition change</text>
+  <rect class="blue" x="35" y="55" width="185" height="72"/><text class="txt" x="127" y="84" text-anchor="middle">Parse once</text><text class="small" x="127" y="108" text-anchor="middle">formula + keywords</text>
+  <rect class="box" x="270" y="55" width="185" height="72"/><text class="txt" x="362" y="84" text-anchor="middle">Prepare once</text><text class="small" x="362" y="108" text-anchor="middle">functions + references</text>
+  <rect class="box" x="505" y="55" width="185" height="72"/><text class="txt" x="597" y="84" text-anchor="middle">Dependency index</text><text class="small" x="597" y="108" text-anchor="middle">affected fields</text>
+  <rect class="green" x="740" y="55" width="220" height="72"/><text class="txt" x="850" y="84" text-anchor="middle">Compiled Form plan</text><text class="small" x="850" y="108" text-anchor="middle">reuse during entry</text>
+  <path class="arrow" d="M220 91 H270"/><path class="arrow" d="M455 91 H505"/><path class="arrow" d="M690 91 H740"/>
+  <text class="txt" x="500" y="190" text-anchor="middle">Record entry / user typing</text>
+  <rect class="blue" x="35" y="220" width="170" height="72"/><text class="txt" x="120" y="250" text-anchor="middle">Field changes</text><text class="small" x="120" y="274" text-anchor="middle">raw entered VALUE</text>
+  <rect class="box" x="245" y="220" width="185" height="72"/><text class="txt" x="337" y="250" text-anchor="middle">Find affected</text><text class="small" x="337" y="274" text-anchor="middle">dependency lookup</text>
+  <rect class="box" x="470" y="220" width="185" height="72"/><text class="txt" x="562" y="250" text-anchor="middle">Evaluate rows</text><text class="small" x="562" y="274" text-anchor="middle">formula -> criterion</text>
+  <rect class="box" x="695" y="220" width="125" height="72"/><text class="txt" x="757" y="250" text-anchor="middle">Combine</text><text class="small" x="757" y="274" text-anchor="middle">row Booleans</text>
+  <rect class="green" x="860" y="220" width="105" height="72"/><text class="txt" x="912" y="248" text-anchor="middle">Update</text><text class="small" x="912" y="272" text-anchor="middle">UI state</text>
+  <path class="arrow" d="M205 256 H245"/><path class="arrow" d="M430 256 H470"/><path class="arrow" d="M655 256 H695"/><path class="arrow" d="M820 256 H860"/>
+  <text class="txt" x="500" y="350" text-anchor="middle">Express reuses the same package for authoritative Save/Submit evaluation</text>
+  <path class="arrow" d="M500 305 V335"/>
+</svg>

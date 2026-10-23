@@ -1,0 +1,154 @@
+{
+  "scenarioId": "equipment-release",
+  "title": "Equipment commissioning release",
+  "description": "Fictional engineering specifications demonstrate unit conversion, peer references, advisory text, and explicit checkbox sets.",
+  "definition": {
+    "formId": "equipment-release",
+    "version": "1",
+    "fields": [
+      {
+        "id": "reference",
+        "label": "Reference pressure",
+        "valueType": "number",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "range",
+            "criteria": "number_greater_than",
+            "keyword": 0
+          }
+        ]
+      },
+      {
+        "id": "measured",
+        "label": "Measured pressure",
+        "valueType": "number",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "delta",
+            "criteria": "number_less_than",
+            "keyword": 2,
+            "expression": "ABS(VALUE - FIELD(\"reference\"))"
+          }
+        ]
+      },
+      {
+        "id": "temp_f",
+        "label": "Temperature in Fahrenheit",
+        "valueType": "number",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "low",
+            "criteria": "number_greater_than",
+            "keyword": 15,
+            "expression": "(VALUE-32)*5/9"
+          },
+          {
+            "id": "high",
+            "criteria": "number_less_than",
+            "keyword": 30,
+            "expression": "(VALUE-32)*5/9"
+          }
+        ]
+      },
+      {
+        "id": "checks",
+        "label": "Safety checks",
+        "valueType": "string",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "all",
+            "criteria": "selection_values_include_all",
+            "keyword": [
+              "Guard installed",
+              "E-stop tested"
+            ]
+          },
+          {
+            "id": "reject",
+            "criteria": "selection_values_exclude_any",
+            "keyword": [
+              "Leak",
+              "Damage"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "notes",
+        "label": "Technician notes",
+        "valueType": "string",
+        "mustBeCorrect": false,
+        "validationRows": [
+          {
+            "id": "detail",
+            "criteria": "character_limit_more_than",
+            "keyword": 20
+          }
+        ]
+      }
+    ]
+  },
+  "payload": {
+    "formId": "equipment-release",
+    "formVersion": "1",
+    "values": {
+      "reference": 100,
+      "measured": 100.5,
+      "temp_f": 72,
+      "checks": [
+        "Guard installed",
+        "E-stop tested"
+      ],
+      "notes": "Commissioning run completed; fixture identifiers recorded."
+    }
+  },
+  "expectedCanSubmit": true,
+  "cases": [
+    {
+      "name": "Pressure outside tolerance blocks Submit",
+      "patch": {
+        "measured": 103
+      },
+      "canSubmit": false,
+      "blocking": [
+        "measured"
+      ]
+    },
+    {
+      "name": "Reference edit rechecks measurement",
+      "patch": {
+        "reference": 120
+      },
+      "canSubmit": false,
+      "blocking": [
+        "measured"
+      ]
+    },
+    {
+      "name": "Missing safety check blocks Submit",
+      "patch": {
+        "checks": [
+          "Guard installed"
+        ]
+      },
+      "canSubmit": false,
+      "blocking": [
+        "checks"
+      ]
+    },
+    {
+      "name": "Short notes are advisory",
+      "patch": {
+        "notes": "OK"
+      },
+      "canSubmit": true,
+      "warning": [
+        "notes"
+      ]
+    }
+  ]
+}

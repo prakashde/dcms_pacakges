@@ -1,0 +1,2693 @@
+{
+  "registryVersion": "3",
+  "formulaJsVersion": "4.6.1",
+  "formulaJsFunctionCount": 446,
+  "counts": {
+    "supported": 387,
+    "pending_date_semantics": 34,
+    "dcms_implemented": 8,
+    "excluded_spreadsheet_context": 2,
+    "pending_error_value_semantics": 7,
+    "pending_environment_semantics": 3,
+    "pending_unsafe_semantics": 1,
+    "excluded_nondeterministic": 4
+  },
+  "functions": [
+    {
+      "name": "ABS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ACCRINT",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ACOS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ACOSH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ACOT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ACOTH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "AGGREGATE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "AND",
+      "status": "dcms_implemented",
+      "evaluationMode": "lazy",
+      "source": "dcms"
+    },
+    {
+      "name": "ARABIC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ASIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ASINH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ATAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ATAN2",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ATANH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "AVEDEV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "AVERAGE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "AVERAGEA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "AVERAGEIF",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "AVERAGEIFS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BASE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BESSELI",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BESSELJ",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BESSELK",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BESSELY",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BETA.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BETA.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BETADIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BETAINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BIN2DEC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BIN2HEX",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BIN2OCT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BINOM.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BINOM.DIST.RANGE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BINOM.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BINOMDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BINOMDIST.RANGE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BITAND",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BITLSHIFT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BITOR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BITRSHIFT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "BITXOR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CEILING",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CEILING.MATH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CEILING.PRECISE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CEILINGMATH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CEILINGPRECISE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHAR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHIDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHIDIST.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHIDISTRT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHIINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHIINV.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHIINVRT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHISQ.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHISQ.DIST.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHISQ.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHISQ.INV.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHISQ.TEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHITEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHOOSE",
+      "status": "dcms_implemented",
+      "evaluationMode": "lazy",
+      "source": "dcms"
+    },
+    {
+      "name": "CHOOSECOLS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CHOOSEROWS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CLEAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CODE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COLUMN",
+      "status": "excluded_spreadsheet_context",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COLUMNS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COMBIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COMBINA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COMPLEX",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CONCAT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CONCATENATE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CONFIDENCE.NORM",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CONFIDENCE.T",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CONVERT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CORREL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COSH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COTH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COUNT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COUNTA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COUNTBLANK",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COUNTIF",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COUNTIFS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COUPDAYS",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COVAR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COVARIANCE.P",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COVARIANCE.S",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COVARIANCEP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "COVARIANCES",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CRITBINOM",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CSC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CSCH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CUMIPMT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "CUMPRINC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DATE",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DATEDIF",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DATEVALUE",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DAVERAGE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DAY",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DAYS",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DAYS360",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DB",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DCOUNT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DCOUNTA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DDB",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DEC2BIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DEC2HEX",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DEC2OCT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DECIMAL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DEGREES",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DELTA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DEVSQ",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DGET",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DISC",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DMAX",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DMIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DOLLAR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DOLLARDE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DOLLARFR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DPRODUCT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DROP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DSTDEV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DSTDEVP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DSUM",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DVAR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "DVARP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EDATE",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EFFECT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EOMONTH",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ERF",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ERFC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ERROR.TYPE",
+      "status": "pending_error_value_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EVEN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EXACT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EXP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EXPAND",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EXPON.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "EXPONDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "F.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "F.DIST.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "F.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "F.INV.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "F.TEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FACT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FACTDOUBLE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FALSE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FDIST.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FDISTRT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FIND",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FINV.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FINVRT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FISHER",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FISHERINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FIXED",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FLOOR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FLOOR.MATH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FLOOR.PRECISE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FLOORMATH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FLOORPRECISE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FORECAST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FREQUENCY",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FTEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "FVSCHEDULE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAMMA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAMMA.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAMMA.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAMMADIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAMMAINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAMMALN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAMMALN.PRECISE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAMMALNPRECISE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GAUSS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GCD",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GEOMEAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GESTEP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "GROWTH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HARMEAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HEX2BIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HEX2DEC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HEX2OCT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HLOOKUP",
+      "status": "pending_environment_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HOUR",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HSTACK",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HYPGEOM.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "HYPGEOMDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IF",
+      "status": "dcms_implemented",
+      "evaluationMode": "lazy",
+      "source": "dcms"
+    },
+    {
+      "name": "IFERROR",
+      "status": "pending_error_value_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IFNA",
+      "status": "pending_error_value_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IFS",
+      "status": "dcms_implemented",
+      "evaluationMode": "lazy",
+      "source": "dcms"
+    },
+    {
+      "name": "IMABS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMAGINARY",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMARGUMENT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMCONJUGATE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMCOS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMCOSH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMCOT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMCSC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMCSCH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMDIV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMEXP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMLN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMLOG10",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMLOG2",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMPOWER",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMPRODUCT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMREAL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMSEC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMSECH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMSIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMSINH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMSQRT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMSUB",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMSUM",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IMTAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "INDEX",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "INT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "INTERCEPT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IPMT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "IRR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISBLANK",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISERR",
+      "status": "pending_error_value_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISERROR",
+      "status": "pending_error_value_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISEVEN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISLOGICAL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISNA",
+      "status": "pending_error_value_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISNONTEXT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISNUMBER",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISO.CEILING",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISO.CEILING.MATH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISO.CEILING.PRECISE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISODD",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISOWEEKNUM",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISPMT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ISTEXT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "KURT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LARGE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LCM",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LEFT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LEN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LINEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOG",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOG10",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOGEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOGINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOGNORM.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOGNORM.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOGNORMDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOGNORMINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOOKUP",
+      "status": "pending_environment_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "LOWER",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MATCH",
+      "status": "pending_unsafe_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MAX",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MAXA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MAXIFS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MEDIAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MID",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MINA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MINIFS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MINUTE",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MIRR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MMULT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MOD",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MODE.MULT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MODE.SNGL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MODEMULT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MODESNGL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MONTH",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MROUND",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MULTINOMIAL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "MUNIT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "N",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NA",
+      "status": "pending_error_value_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NEGBINOM.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NEGBINOMDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NETWORKDAYS",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NETWORKDAYS.INTL",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NETWORKDAYSINTL",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NOMINAL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NORM.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NORM.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NORM.S.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NORM.S.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NORMDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NORMINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NORMSDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NORMSINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NOT",
+      "status": "dcms_implemented",
+      "evaluationMode": "lazy",
+      "source": "dcms"
+    },
+    {
+      "name": "NOW",
+      "status": "excluded_nondeterministic",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NPER",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NPV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "NUMBERVALUE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "OCT2BIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "OCT2DEC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "OCT2HEX",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ODD",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "OR",
+      "status": "dcms_implemented",
+      "evaluationMode": "lazy",
+      "source": "dcms"
+    },
+    {
+      "name": "PDURATION",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PEARSON",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERCENTILE.EXC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERCENTILE.INC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERCENTILEEXC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERCENTILEINC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERCENTRANK.EXC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERCENTRANK.INC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERCENTRANKEXC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERCENTRANKINC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERMUT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PERMUTATIONA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PHI",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PI",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PMT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "POISSON.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "POISSONDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "POWER",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PPMT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PRICEDISC",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PROB",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PRODUCT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PROPER",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "PV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "QUARTILE.EXC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "QUARTILE.INC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "QUARTILEEXC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "QUARTILEINC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "QUOTIENT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RADIANS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RAND",
+      "status": "excluded_nondeterministic",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RANDBETWEEN",
+      "status": "excluded_nondeterministic",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RANK.AVG",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RANK.EQ",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RANKAVG",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RANKEQ",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RATE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "REPLACE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "REPT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RIGHT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ROMAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ROUND",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ROUNDDOWN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ROUNDUP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ROW",
+      "status": "excluded_spreadsheet_context",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ROWS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RRI",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "RSQ",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SEARCH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SEC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SECH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SECOND",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SERIESSUM",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SIGN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SINH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SKEW",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SKEW.P",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SKEWP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SLN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SLOPE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SMALL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SORT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SQRT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SQRTPI",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "STANDARDIZE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "STDEV.P",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "STDEV.S",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "STDEVA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "STDEVP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "STDEVPA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "STDEVS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "STEYX",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUBSTITUTE",
+      "status": "dcms_implemented",
+      "evaluationMode": "eager",
+      "source": "dcms"
+    },
+    {
+      "name": "SUBTOTAL",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUM",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUMIF",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUMIFS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUMPRODUCT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUMSQ",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUMX2MY2",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUMX2PY2",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SUMXMY2",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "SWITCH",
+      "status": "dcms_implemented",
+      "evaluationMode": "lazy",
+      "source": "dcms"
+    },
+    {
+      "name": "SYD",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "T",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "T.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "T.DIST.2T",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "T.DIST.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "T.INV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "T.INV.2T",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "T.TEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TAKE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TANH",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TBILLEQ",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TBILLPRICE",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TBILLYIELD",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TDIST.2T",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TDIST.RT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TDISTRT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TEXT",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TEXTJOIN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TIME",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TIMEVALUE",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TINV",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TINV.2T",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TODAY",
+      "status": "excluded_nondeterministic",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TRANSPOSE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TREND",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TRIM",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TRIMMEAN",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TRUE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TRUNC",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TTEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "TYPE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "UNICHAR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "UNICODE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "UNIQUE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "UPPER",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VALUE",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VAR.P",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VAR.S",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VARA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VARP",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VARPA",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VARS",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VLOOKUP",
+      "status": "pending_environment_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "VSTACK",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "WEEKDAY",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "WEEKNUM",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "WEIBULL.DIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "WEIBULLDIST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "WORKDAY",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "WORKDAY.INTL",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "WORKDAYINTL",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "XIRR",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "XNPV",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "XOR",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "YEAR",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "YEARFRAC",
+      "status": "pending_date_semantics",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "Z.TEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    },
+    {
+      "name": "ZTEST",
+      "status": "supported",
+      "evaluationMode": "eager",
+      "source": "formulajs"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "name": "@dcms/form-rules",
+  "version": "0.10.5",
+  "private": false,
+  "description": "Shared DCMS Chevrotain formula parser, Formula.js-backed function registry, Required Keywords parser, validation-row compiler, and incremental browser/Express rule engine.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "schemas",
+    "README.md",
+    "docs/PACKAGE_GUIDE.md",
+    "docs/FULL_REFERENCE.md",
+    "docs/diagrams/package-flow.svg",
+    "docs/diagrams/algorithm-flow.svg",
+    "reference/function-catalog.csv",
+    "LICENSE.txt",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "scripts": {
+    "clean": "node tools/clean.mjs",
+    "check:formulajs-catalog": "node tools/generate-formulajs-policy.mjs --check",
+    "build": "node tools/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "bench": "node bench/prototype-100x10.mjs",
+    "verify": "npm run format:check && npm run audit:comments && npm run check:formulajs-catalog && npm run build && npm run build:examples && npm run test && npm run build:browser && npm run bench",
+    "pack:local": "node tools/pack.mjs",
+    "bench:scaling": "node bench/scaling.mjs",
+    "audit:comments": "node tools/comment-audit.mjs",
+    "bench:stress": "node bench/stress-edge-cases.mjs",
+    "build:examples": "node tools/build-examples.mjs",
+    "build:browser": "node tools/build-browser.mjs",
+    "example:react": "node examples/react-javascript/server.mjs",
+    "audit:compilation": "node tools/audit-compilation.mjs",
+    "audit:faults": "node tools/audit-fault-detection.mjs",
+    "test:coverage": "node --test --test-reporter=tap --experimental-test-coverage --test-coverage-include='dist/esm/*.js' --test-coverage-include='examples/*.mjs' --test-coverage-include='examples/isolated/*.mjs' --test-coverage-include='.example-build/*.js' test/*.test.mjs",
+    "qualify:installed": "node tools/qualify-installed-examples.mjs",
+    "format": "node tools/format-source.mjs",
+    "format:check": "node tools/format-source.mjs --check"
+  },
+  "dependencies": {
+    "@formulajs/formulajs": "4.6.1",
+    "chevrotain": "10.5.0",
+    "lodash": "4.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.6",
+    "@types/node": "24.13.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "ajv": "8.20.0",
+    "esbuild": "0.28.2",
+    "express": "5.2.1",
+    "prettier": "3.6.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "typescript": "5.9.3"
+  },
+  "overrides": {
+    "lodash": "4.18.1"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "scenarioId": "deviation-review",
+  "title": "Deviation report review",
+  "description": "Demonstrates implicit OR warnings, long narrative values, signed zero, and literal replacement behavior.",
+  "definition": {
+    "formId": "deviation-review",
+    "version": "1",
+    "fields": [
+      {
+        "id": "narrative",
+        "label": "Narrative",
+        "valueType": "string",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "terms",
+            "criteria": "required_keywords",
+            "keyword": "containment investigation"
+          },
+          {
+            "id": "len",
+            "criteria": "character_limit_more_than",
+            "keyword": 30
+          }
+        ]
+      },
+      {
+        "id": "code",
+        "label": "Corrected code",
+        "valueType": "string",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "replace",
+            "criteria": "required_keywords",
+            "keyword": "Xbcabc",
+            "expression": "SUBSTITUTE(VALUE,\"a\",\"X\",1)"
+          }
+        ]
+      },
+      {
+        "id": "difference",
+        "label": "Zero difference",
+        "valueType": "number",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "zero",
+            "criteria": "number_equal_to",
+            "keyword": 1,
+            "expression": "IF(VALUE=0,1,0)"
+          }
+        ]
+      }
+    ]
+  },
+  "payload": {
+    "formId": "deviation-review",
+    "formVersion": "1",
+    "values": {
+      "narrative": "Containment completed. Investigation notes are attached to this fictional example.",
+      "code": "abcabc",
+      "difference": 0
+    }
+  },
+  "expectedCanSubmit": true,
+  "cases": [
+    {
+      "name": "Narrative misses both implicit OR terms",
+      "patch": {
+        "narrative": "The team wrote a report with no matching required words."
+      },
+      "canSubmit": false,
+      "blocking": [
+        "narrative"
+      ]
+    },
+    {
+      "name": "Negative zero equals zero",
+      "patch": {
+        "difference": -0.0
+      },
+      "canSubmit": true
+    }
+  ]
+}

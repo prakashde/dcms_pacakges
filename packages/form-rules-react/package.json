@@ -1,0 +1,32 @@
+{
+  "name": "@dcms/form-rules-react",
+  "version": "0.4.0-parity.6",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "description": "Typed DCMS Form Rules React adapter with Workbench state/model contracts and reusable Form, validation, Record and Revision surfaces; production DCMS integration remains host-owned.",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE.txt"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "@dcms/form-rules": "0.10.5",
+    "react": "19.3.0"
+  }
+}

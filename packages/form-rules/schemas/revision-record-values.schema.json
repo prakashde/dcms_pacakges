@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dcms.local/schemas/revision-record-values.schema.json",
+  "title": "DCMS Form Rules - Revision Record Values Payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "revisionId",
+    "revisionVersion",
+    "formElements"
+  ],
+  "properties": {
+    "revisionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "\\S"
+    },
+    "revisionVersion": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "\\S"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "formElements": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "record-values.schema.json"
+      }
+    }
+  },
+  "description": "Shape validation only. The runtime enforces depth, aggregate size, known identifiers and authoritative version checks. externalReferences are for trusted application use; never accept them from an end user."
+}

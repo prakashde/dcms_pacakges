@@ -1,0 +1,147 @@
+{
+  "scenarioId": "specimen-receipt",
+  "title": "Specimen receipt and manifest check",
+  "description": "Fictional workflow example only; thresholds are invented test specifications, not clinical guidance.",
+  "definition": {
+    "formId": "specimen-receipt",
+    "version": "1",
+    "fields": [
+      {
+        "id": "expected",
+        "label": "Manifest count",
+        "valueType": "number",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "count",
+            "criteria": "number_greater_than",
+            "keyword": 0
+          }
+        ]
+      },
+      {
+        "id": "received",
+        "label": "Received count",
+        "valueType": "number",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "match",
+            "criteria": "number_equal_to",
+            "keyword": 0,
+            "expression": "VALUE - FIELD(\"expected\")"
+          }
+        ]
+      },
+      {
+        "id": "label",
+        "label": "Container label",
+        "valueType": "string",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "prefix",
+            "criteria": "number_equal_to",
+            "keyword": 1,
+            "expression": "IF(STARTSWITH(VALUE,\"DEMO-\"),1,0)"
+          },
+          {
+            "id": "keywords",
+            "criteria": "required_keywords",
+            "keyword": "\"DEMO\" AND NOT \"UNLABELED\""
+          }
+        ]
+      },
+      {
+        "id": "chain",
+        "label": "Custody checks",
+        "valueType": "string",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "required",
+            "criteria": "selection_values_include_all",
+            "keyword": [
+              "Manifest checked",
+              "Seal inspected"
+            ]
+          },
+          {
+            "id": "incompatible",
+            "criteria": "selection_values_exclude_all",
+            "keyword": [
+              "Hold",
+              "Released"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comment",
+        "label": "Reception note",
+        "valueType": "string",
+        "mustBeCorrect": false,
+        "validationRows": [
+          {
+            "id": "detail",
+            "criteria": "character_limit_more_than",
+            "keyword": 10
+          }
+        ]
+      }
+    ]
+  },
+  "payload": {
+    "formId": "specimen-receipt",
+    "formVersion": "1",
+    "values": {
+      "expected": 4,
+      "received": 4,
+      "label": "DEMO-LOT-004",
+      "chain": [
+        "Manifest checked",
+        "Seal inspected",
+        "Released"
+      ],
+      "comment": "Received in demonstration packaging."
+    }
+  },
+  "expectedCanSubmit": true,
+  "cases": [
+    {
+      "name": "Count mismatch",
+      "patch": {
+        "received": 3
+      },
+      "canSubmit": false,
+      "blocking": [
+        "received"
+      ]
+    },
+    {
+      "name": "Conflicting disposition",
+      "patch": {
+        "chain": [
+          "Manifest checked",
+          "Seal inspected",
+          "Hold",
+          "Released"
+        ]
+      },
+      "canSubmit": false,
+      "blocking": [
+        "chain"
+      ]
+    },
+    {
+      "name": "Wrong label prefix",
+      "patch": {
+        "label": "OTHER-004"
+      },
+      "canSubmit": false,
+      "blocking": [
+        "label"
+      ]
+    }
+  ]
+}

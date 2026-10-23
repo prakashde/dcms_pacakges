@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="380" viewBox="0 0 1000 380">
+  <style>
+    .box{fill:#f7f9fc;stroke:#3d5a80;stroke-width:2;rx:12;ry:12}
+    .accent{fill:#e7f0fa;stroke:#2f6690;stroke-width:2;rx:12;ry:12}
+    .txt{font: 18px Arial, sans-serif;fill:#1f2937}
+    .small{font: 15px Arial, sans-serif;fill:#475569}
+    .arrow{stroke:#64748b;stroke-width:2.5;fill:none;marker-end:url(#a)}
+  </style>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker></defs>
+  <rect class="accent" x="25" y="55" width="200" height="90"/><text class="txt" x="125" y="90" text-anchor="middle">Formula text</text><text class="small" x="125" y="118" text-anchor="middle">Chevrotain formula parser</text>
+  <rect class="box" x="285" y="55" width="200" height="90"/><text class="txt" x="385" y="90" text-anchor="middle">DCMS AST</text><text class="small" x="385" y="118" text-anchor="middle">prepared expression</text>
+  <rect class="accent" x="545" y="55" width="200" height="90"/><text class="txt" x="645" y="90" text-anchor="middle">DCMS evaluator</text><text class="small" x="645" y="118" text-anchor="middle">registry + references</text>
+  <rect class="box" x="805" y="55" width="170" height="90"/><text class="txt" x="890" y="90" text-anchor="middle">Formula.js</text><text class="small" x="890" y="118" text-anchor="middle">approved functions</text>
+  <path class="arrow" d="M225 100 H285"/><path class="arrow" d="M485 100 H545"/><path class="arrow" d="M745 100 H805"/>
+  <rect class="accent" x="25" y="235" width="230" height="90"/><text class="txt" x="140" y="270" text-anchor="middle">Required Keywords</text><text class="small" x="140" y="298" text-anchor="middle">separate Chevrotain parser</text>
+  <rect class="box" x="315" y="235" width="230" height="90"/><text class="txt" x="430" y="270" text-anchor="middle">Keyword AST</text><text class="small" x="430" y="298" text-anchor="middle">literal substring matching</text>
+  <rect class="accent" x="605" y="235" width="230" height="90"/><text class="txt" x="720" y="270" text-anchor="middle">Validation engine</text><text class="small" x="720" y="298" text-anchor="middle">criteria + row Boolean</text>
+  <path class="arrow" d="M255 280 H315"/><path class="arrow" d="M545 280 H605"/>
+  <text class="small" x="900" y="275" text-anchor="middle">Formula and keyword</text><text class="small" x="900" y="298" text-anchor="middle">grammars remain separate</text>
+</svg>

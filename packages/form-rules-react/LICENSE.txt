@@ -1,0 +1,1 @@
+DCMS proprietary application component. No public license granted.

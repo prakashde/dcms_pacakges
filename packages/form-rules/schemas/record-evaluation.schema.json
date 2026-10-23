@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dcms.local/schemas/record-evaluation.schema.json",
+  "title": "DCMS Form Rules - Record Evaluation Result",
+  "type": "object",
+  "required": [
+    "canSave",
+    "canSubmit",
+    "blockingFieldIds",
+    "invalidFieldIds",
+    "warningFieldIds",
+    "validFieldIds",
+    "unvalidatedFieldIds",
+    "errorFieldIds",
+    "fields"
+  ],
+  "properties": {
+    "canSave": {
+      "type": "boolean"
+    },
+    "canSubmit": {
+      "type": "boolean"
+    },
+    "blockingFieldIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "invalidFieldIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warningFieldIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "fieldId",
+          "validationPassed",
+          "blocking",
+          "hasValidation",
+          "validationState",
+          "evaluationState",
+          "inputGuidance",
+          "evaluationErrors",
+          "evaluationErrorDetails"
+        ],
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "validationPassed": {
+            "type": "boolean"
+          },
+          "blocking": {
+            "type": "boolean"
+          },
+          "hasValidation": {
+            "type": "boolean"
+          },
+          "validationState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "not_validated",
+              "valid",
+              "warning",
+              "blocking",
+              null
+            ]
+          },
+          "inputGuidance": {
+            "type": "object",
+            "required": [
+              "kind",
+              "appliesTo",
+              "display",
+              "complete",
+              "rowIds"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "none",
+                  "numeric_range",
+                  "text_length",
+                  "selection",
+                  "required_keywords",
+                  "criteria_summary"
+                ]
+              },
+              "appliesTo": {
+                "enum": [
+                  "entered_value",
+                  "calculated_value",
+                  "mixed"
+                ]
+              },
+              "display": {
+                "type": "string"
+              },
+              "complete": {
+                "type": "boolean"
+              },
+              "rowIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "selectionRequirements": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "mode",
+                    "values",
+                    "caseSensitive"
+                  ],
+                  "properties": {
+                    "mode": {
+                      "enum": [
+                        "include_any",
+                        "include_all",
+                        "exclude_any",
+                        "exclude_all"
+                      ]
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "caseSensitive": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "evaluationErrors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evaluationState": {
+            "enum": [
+              "ok",
+              "error"
+            ]
+          },
+          "evaluationErrorDetails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "code",
+                "category",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "category": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "rowId": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "length": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "functionName": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "errorFieldIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validFieldIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unvalidatedFieldIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dcms.local/schemas/record-values.schema.json",
+  "title": "DCMS Form Rules - Record Values Payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formId",
+    "formVersion",
+    "values"
+  ],
+  "properties": {
+    "formId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "\\S"
+    },
+    "formVersion": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "\\S"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "values": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/dcmsValue"
+      }
+    },
+    "externalReferences": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/dcmsValue"
+      }
+    }
+  },
+  "$defs": {
+    "dcmsValue": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dcmsValue"
+          }
+        }
+      ]
+    }
+  },
+  "description": "Shape validation only. The runtime enforces depth, aggregate size, known identifiers and authoritative version checks. externalReferences are for trusted application use; never accept them from an end user."
+}

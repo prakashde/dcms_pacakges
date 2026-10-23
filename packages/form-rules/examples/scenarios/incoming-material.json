@@ -1,0 +1,95 @@
+{
+  "scenarioId": "incoming-material",
+  "title": "Incoming material inspection",
+  "description": "Illustrates a server-owned tolerance reference, incoming identifiers, and literal punctuation in keywords.",
+  "definition": {
+    "formId": "incoming-material",
+    "version": "1",
+    "fields": [
+      {
+        "id": "dimension",
+        "label": "Measured dimension",
+        "valueType": "number",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "tolerance",
+            "criteria": "number_less_than",
+            "keyword": 0.5,
+            "expression": "ABS(VALUE - FIELD(\"nominal_dimension\"))"
+          }
+        ]
+      },
+      {
+        "id": "lot",
+        "label": "Lot identifier",
+        "valueType": "string",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "lot",
+            "criteria": "required_keywords",
+            "keyword": "LOT AND NOT REJECT"
+          }
+        ]
+      },
+      {
+        "id": "disposition",
+        "label": "Disposition note",
+        "valueType": "string",
+        "mustBeCorrect": true,
+        "validationRows": [
+          {
+            "id": "mark",
+            "criteria": "required_keywords",
+            "keyword": "\"INSPECTED\" AND NOT OR-HOLD"
+          }
+        ]
+      }
+    ]
+  },
+  "payload": {
+    "formId": "incoming-material",
+    "formVersion": "1",
+    "values": {
+      "dimension": 25.1,
+      "lot": "LOT-2026-DEMO",
+      "disposition": "INSPECTED release approved"
+    },
+    "externalReferences": {
+      "nominal_dimension": 25
+    }
+  },
+  "expectedCanSubmit": true,
+  "cases": [
+    {
+      "name": "Tolerance failure",
+      "patch": {
+        "dimension": 26
+      },
+      "canSubmit": false,
+      "blocking": [
+        "dimension"
+      ]
+    },
+    {
+      "name": "Punctuation remains part of literal",
+      "patch": {
+        "disposition": "INSPECTED OR-HOLD"
+      },
+      "canSubmit": false,
+      "blocking": [
+        "disposition"
+      ]
+    },
+    {
+      "name": "Missing authoritative reference is an evaluation error",
+      "patch": {},
+      "externalReferences": {},
+      "canSubmit": false,
+      "errors": [
+        "dimension"
+      ]
+    }
+  ]
+}

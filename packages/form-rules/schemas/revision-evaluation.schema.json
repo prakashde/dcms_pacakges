@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dcms.local/schemas/revision-evaluation.schema.json",
+  "title": "DCMS Form Rules - Revision Evaluation Result",
+  "type": "object",
+  "required": [
+    "canSubmit",
+    "validNodeIds",
+    "unvalidatedNodeIds",
+    "warningNodeIds",
+    "blockingNodeIds",
+    "errorNodeIds",
+    "formElements"
+  ],
+  "properties": {
+    "canSubmit": {
+      "type": "boolean"
+    },
+    "validNodeIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unvalidatedNodeIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warningNodeIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blockingNodeIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errorNodeIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "formElements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "nodeId",
+          "formId",
+          "validationState",
+          "evaluationState",
+          "evaluation"
+        ],
+        "properties": {
+          "nodeId": {
+            "type": "string"
+          },
+          "formId": {
+            "type": "string"
+          },
+          "validationState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "not_validated",
+              "valid",
+              "warning",
+              "blocking",
+              null
+            ]
+          },
+          "evaluation": {
+            "$ref": "record-evaluation.schema.json"
+          },
+          "evaluationState": {
+            "enum": [
+              "ok",
+              "error"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

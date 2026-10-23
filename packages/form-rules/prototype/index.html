@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DCMS Form Rules — 100 Field Prototype</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h1>DCMS Form Rules Prototype</h1>
+      <p>100 editable inputs · 100 compiled formulas · 1,000 validation rows · incremental evaluation while typing</p>
+    </div>
+    <div class="header-actions">
+      <button id="resetFailures">Restore sample failures</button>
+      <button id="makeValid">Make strict fields valid</button>
+      <button id="saveBtn" class="secondary">Save Draft</button>
+      <button id="submitBtn" class="primary">Submit</button>
+    </div>
+  </header>
+
+  <section class="explain">
+    <strong>Behavior:</strong> every input is transformed by its stored formula before validation. Draft Save is allowed even when validation fails. Submit is blocked only when a failed field has <em>Must Be Correct?</em> enabled. Warning-only failures do not block Submit.
+  </section>
+
+  <section id="metrics" class="metrics"></section>
+  <section id="message" class="message" aria-live="polite"></section>
+
+  <main>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Input</th><th>Entered value</th><th>Formula / calculated value</th><th>Must Be Correct?</th><th>10 validations</th><th>Status</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </main>
+
+  <footer>
+    The browser compiles the formulas once when the page loads. Each keystroke runs the flat compiled instruction array only for the changed field and any dependent fields. Save and Submit are re-evaluated on the server with the same package.
+  </footer>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>

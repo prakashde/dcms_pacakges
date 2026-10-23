@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dcms.local/schemas/revision-definition.schema.json",
+  "title": "DCMS Form Rules - Revision Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "revisionId",
+    "version",
+    "formElements"
+  ],
+  "properties": {
+    "revisionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "\\S"
+    },
+    "version": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "\\S"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "formElements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "nodeId",
+          "form"
+        ],
+        "properties": {
+          "nodeId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "\\S"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "form": {
+            "$ref": "form-definition.schema.json"
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 100
+    }
+  }
+}

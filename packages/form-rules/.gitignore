@@ -1,0 +1,43 @@
+# Dependencies and generated builds
+node_modules/
+dist/
+coverage/
+.example-build/
+.pack-stage/
+release/
+
+# Package/release outputs
+*.tgz
+*.zip
+*.sha256
+*_SHA256.txt
+SHA256SUMS.txt
+
+# Generated verification/benchmark outputs
+*-results.txt
+*-results.json
+verify-results*.txt
+benchmark-results*.txt
+benchmark-results*.json
+prototype-test-results*.txt
+evidence/*.txt
+evidence/*.json
+evidence/*.csv
+
+# Generated publication outputs
+*.docx
+*.pdf
+render*/
+
+# Prototype runtime data
+prototype/runtime/
+
+# OS/editor/temp
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Python publication tooling
+__pycache__/
+*.pyc

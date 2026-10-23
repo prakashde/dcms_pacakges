@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DCMS custom packages — Git upload &amp; DCMS integration guide</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --ink: #172033;
+    --muted: #5b6577;
+    --line: #dfe3ec;
+    --blue: #1f5eff;
+    --blue-soft: #eaf0ff;
+    --green: #0f7a4d;
+    --green-soft: #e7f6ee;
+    --amber: #8a5a00;
+    --amber-soft: #fff4dd;
+    --red: #a12a2a;
+    --red-soft: #fdeaea;
+    --code-bg: #111827;
+    --code-ink: #e5e7eb;
+    --radius: 14px;
+    --mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --sans: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { font-family: var(--mono); font-size: .9em; }
+  p code, li code, td code {
+    background: #eef1f7;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: .08em .35em;
+    white-space: nowrap;
+  }
+  .hero {
+    background: linear-gradient(135deg, #0d1b3d 0%, #163a7a 55%, #1f5eff 100%);
+    color: #fff;
+    padding: 40px 22px 30px;
+  }
+  .hero-inner { max-width: 1060px; margin: 0 auto; }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: .74rem;
+    font-weight: 700;
+    opacity: .8;
+    margin: 0 0 8px;
+  }
+  .hero h1 { font-size: clamp(1.7rem, 4vw, 2.6rem); line-height: 1.15; margin: 0 0 12px; }
+  .hero p.lede { font-size: 1.02rem; max-width: 760px; margin: 0 0 18px; color: #dbe4ff; }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: .82rem;
+    color: #c9d6f7;
+  }
+  .meta span { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); padding: 3px 9px; border-radius: 999px; }
+  .layout {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 26px 20px 60px;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 26px;
+    align-items: start;
+  }
+  nav.toc {
+    position: sticky;
+    top: 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-size: .88rem;
+  }
+  nav.toc strong { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 8px; }
+  nav.toc ol { margin: 0; padding-left: 18px; }
+  nav.toc li { margin: 5px 0; }
+  main { min-width: 0; }
+  section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px clamp(16px, 3vw, 32px);
+    margin-bottom: 22px;
+    scroll-margin-top: 14px;
+  }
+  section > h2 {
+    font-size: 1.45rem;
+    margin: 0 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .step-label {
+    display: inline-block;
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 3px 10px;
+    margin-bottom: 8px;
+  }
+  h3 { font-size: 1.08rem; margin: 24px 0 8px; }
+  h4 { font-size: .96rem; margin: 18px 0 6px; }
+  p { margin: 8px 0 12px; }
+  ul, ol { margin: 8px 0 14px; padding-left: 24px; }
+  li { margin: 5px 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 14px 0; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    padding: 13px 15px;
+    background: #fbfcff;
+  }
+  .card h4 { margin: 0 0 4px; }
+  .card p { margin: 0; font-size: .9rem; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: .9rem; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #f1f4fa; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  tr:last-child td { border-bottom: none; }
+  .cmd {
+    position: relative;
+    margin: 12px 0 16px;
+    border-radius: 11px;
+    overflow: hidden;
+    background: var(--code-bg);
+  }
+  .cmd pre { margin: 0; padding: 15px 16px; padding-right: 74px; overflow-x: auto; }
+  .cmd code { color: var(--code-ink); font-size: .84rem; line-height: 1.55; white-space: pre; }
+  .copy {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    border: 1px solid #3b4a66;
+    background: #1f2a3d;
+    color: #cfd8ea;
+    font: 600 .7rem var(--sans);
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .copy:hover { background: #2a3a55; }
+  .copy.done { background: var(--green); border-color: var(--green); color: #fff; }
+  .note, .warn, .tip {
+    border-left: 4px solid;
+    border-radius: 8px;
+    padding: 11px 14px;
+    margin: 14px 0;
+    font-size: .92rem;
+  }
+  .note { border-color: var(--blue); background: var(--blue-soft); }
+  .warn { border-color: #d99b1c; background: var(--amber-soft); color: #543700; }
+  .tip { border-color: var(--green); background: var(--green-soft); color: #0b4d32; }
+  .note strong, .warn strong, .tip strong { display: block; margin-bottom: 2px; }
+  .badge { display: inline-block; font-size: .72rem; font-weight: 700; border-radius: 999px; padding: 2px 8px; vertical-align: middle; }
+  .badge.ok { background: var(--green-soft); color: var(--green); }
+  .badge.warn { background: var(--amber-soft); color: var(--amber); }
+  .badge.no { background: var(--red-soft); color: var(--red); }
+  .prompt {
+    position: relative;
+    border: 1px solid #cdd5e6;
+    border-radius: 11px;
+    background: #f4f7ff;
+    padding: 14px 16px;
+    margin: 12px 0 18px;
+  }
+  .prompt pre { margin: 0; white-space: pre-wrap; font-family: var(--mono); font-size: .82rem; line-height: 1.55; color: #1c2942; }
+  .prompt .copy { top: 10px; right: 10px; background: #e2e9fb; border-color: #c3cfea; color: #27416f; }
+  .prompt h4 { margin: 0 30px 6px 0; font-size: .88rem; color: #27416f; }
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 14px 0;
+    font-size: .86rem;
+  }
+  .flow span.box { border: 1px solid var(--line); background: #fbfcff; padding: 6px 10px; border-radius: 7px; }
+  .flow span.arrow { color: var(--muted); }
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li { padding-left: 27px; position: relative; }
+  .checklist li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--green);
+    font-weight: 700;
+  }
+  footer { max-width: 1060px; margin: 0 auto; padding: 0 20px 50px; color: var(--muted); font-size: .84rem; }
+  @media (max-width: 920px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { position: static; }
+    nav.toc ol { columns: 2; }
+  }
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    .hero { background: #fff; color: #000; border-bottom: 2px solid #000; }
+    .hero p.lede, .meta { color: #333; }
+    .meta span { border-color: #bbb; color: #333; }
+    nav.toc { display: none; }
+    .layout { display: block; padding: 0; }
+    section { border: none; padding: 0 0 14px; break-inside: avoid; }
+    .copy { display: none; }
+    .cmd { background: #f2f2f2; }
+    .cmd code { color: #000; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">DCMS · custom package operations</p>
+    <h1>Upload the form packages to Git and install them in DCMS</h1>
+    <p class="lede">A working guide for <code>@dcms/form-rules</code> and <code>@dcms/form-rules-react</code>: branch strategy, GitHub releases, verifiable tarballs, and the exact DCMS install steps. Every command below was run against the prepared repository.</p>
+    <div class="meta">
+      <span>Repo: D:\ALL PROJECTS\DCMS-form-packages</span>
+      <span>Consumer: D:\ALL PROJECTS\DCMS</span>
+      <span>Node 22.14+ · npm 10 · Git 2.5x</span>
+      <span>Prepared 23 Oct 2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+<nav class="toc" aria-label="Contents">
+  <strong>Contents</strong>
+  <ol>
+    <li><a href="#analysis">Project analysis</a></li>
+    <li><a href="#model">Repo &amp; branch model</a></li>
+    <li><a href="#upload">First push to GitHub</a></li>
+    <li><a href="#customize">Daily customization</a></li>
+    <li><a href="#release">Build, pack, release</a></li>
+    <li><a href="#dcms">Install into DCMS</a></li>
+    <li><a href="#verify">Verification</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#prompts">AI prompts</a></li>
+    <li><a href="#cheatsheet">Command cheat sheet</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============================================================ -->
+<section id="analysis">
+  <span class="step-label">Read first</span>
+  <h2>1. What this project actually is</h2>
+
+  <p>The workbench is a React application whose rules are authored and evaluated by two custom packages. The engine is built on <strong>Chevrotain</strong> (the parser toolkit, written “chevrotrain” in the brief) and <strong>Formula.js</strong> (the spreadsheet-function library, <code>@formulajs/formulajs</code>). The React package wraps the engine for the Workbench and for DCMS forms.</p>
+
+  <div class="flow" aria-label="Data flow">
+    <span class="box">DCMS form rows<br><small>criteria labels, operators</small></span>
+    <span class="arrow">→</span>
+    <span class="box">dcmsFormAdapter.js<br><small>label ↔ enum conversion</small></span>
+    <span class="box">Workbench model<br><small>@dcms/form-rules-react</small></span>
+    <span class="arrow">→</span>
+    <span class="box">compileForm / evaluate<br><small>@dcms/form-rules</small></span>
+    <span class="arrow">→</span>
+    <span class="box">feedback, blockers,<br><small>canSubmit</small></span>
+  </div>
+
+  <h3>The two custom packages</h3>
+  <table>
+    <thead><tr><th>Package</th><th>Version</th><th>What it owns</th><th>Build</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>@dcms/form-rules</code></td>
+        <td>0.10.5</td>
+        <td>Chevrotain formula grammar (<code>formula-parser.ts</code>), Required Keywords parser (<code>keyword-parser.ts</code>), the controlled Formula.js registry and guards (<code>functions.ts</code>, <code>formulajs-policy.ts</code>), validation-row compiler, limits, diagnostics, incremental evaluator, ESM + CJS + types.</td>
+        <td><code>tools/build.mjs</code> (tsc), <code>tools/build-examples.mjs</code> (esbuild)</td>
+      </tr>
+      <tr>
+        <td><code>@dcms/form-rules-react</code></td>
+        <td>0.4.0-parity.6</td>
+        <td><code>FormEditor</code>, <code>ValidationRowEditor</code>, <code>RecordForm</code>, <code>RevisionOverview</code>, Workbench store/shell, package codec, presets, async evaluation, host contracts. ESM only, TypeScript declarations.</td>
+        <td><code>tsc -p tsconfig.json</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Where the Workbench lives</h3>
+  <ul>
+    <li><code>apps/workbench</code> — reference Workbench (plain JS, structured DOM).</li>
+    <li><code>apps/tsx-demo</code> — maintained React Workbench (parity app).</li>
+    <li><code>apps/react-workbench</code> — standalone Vite clone that already consumes <strong>vendored tarballs</strong> from <code>vendor/</code>. This is the pattern the DCMS install follows.</li>
+  </ul>
+
+  <h3>How DCMS already consumes the packages</h3>
+  <p>The app at <code>D:\ALL PROJECTS\DCMS</code> is a Create React App project (<code>react-scripts</code>, React 18). It already imports both packages:</p>
+  <ul>
+    <li><code>src/common/FormBuilder/dcmsFormAdapter.js</code> — imports <code>compileForm</code>, <code>evaluateRecord</code>, <code>formDefinitionFromWorkbenchModel</code>.</li>
+    <li><code>src/common/FormBuilder/FormBuilder.js</code>, <code>FormRenderer/RulesEvaluatedFormRenderer.js</code>, <code>src/pages/Form/components/FormForm.js</code>.</li>
+    <li>Adapter tests under <code>src/common/FormBuilder/__tests__/</code>.</li>
+  </ul>
+
+  <pre style="background:#f4f6fb;border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;"><code>"@dcms/form-rules": "file:vendor/dcms-form-rules-0.10.5.tgz",
+"@dcms/form-rules-react": "file:vendor/dcms-form-rules-react-0.4.0-parity.6.tgz"</code></pre>
+
+  <p>The current app is installed and verified locally: <code>npm ls</code> resolves <code>@dcms/form-rules@0.10.5</code> and <code>@dcms/form-rules-react@0.4.0-parity.6</code>. The app also carries two deliberate compatibility settings:</p>
+
+  <table>
+    <thead><tr><th>Setting</th><th>Why it exists</th><th>Keep it?</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>overrides["@dcms/form-rules-react"].react = "$react"</code></td>
+        <td>The React package declares a React 19.3.0 peer; DCMS runs React 18. The override pins the adapter's React to the app's React so npm does not install a second copy.</td>
+        <td><span class="badge warn">Yes, until DCMS upgrades React</span></td>
+      </tr>
+      <tr>
+        <td><code>jest.moduleNameMapper</code> for <code>@formulajs/formulajs</code></td>
+        <td>CRA's Jest 27 cannot resolve the engine's ESM package map; adapter tests also virtual-mock <code>@dcms/form-rules-react</code> because of its <code>exports</code> map.</td>
+        <td><span class="badge warn">Yes, for Jest</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>Do not push the old workspace repository.</strong>
+    The distribution workspace at <code>…\raw developed package\src</code> has a <code>.git</code> that tracks <code>node_modules</code> (3,056 files). The clean repository created for you contains only the package sources, package metadata and build helpers.
+  </div>
+
+  <h3>What is committed vs generated</h3>
+  <table>
+    <thead><tr><th>Committed</th><th>Generated / uploaded as release assets</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>packages/**/src</code>, tests, docs, schemas, tsconfigs, package manifests, root lockfile, <code>tools/</code></td>
+        <td><code>node_modules/</code>, <code>dist/</code>, <code>artifacts/*.tgz</code>, <code>*.sha256</code>, <code>.example-build/</code>, <code>evidence/</code></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<section id="model">
+  <span class="step-label">Step 1</span>
+  <h2>2. Repository and branch model</h2>
+
+  <p>One repository holds both packages. Each package has a long-lived customization branch, and every individual change gets a short feature branch. <code>main</code> is always the combination that is ready to release.</p>
+
+  <table>
+    <thead><tr><th>Branch</th><th>Purpose</th><th>Rules</th></tr></thead>
+    <tbody>
+      <tr><td><code>main</code></td><td>Release-ready state of both packages.</td><td>Only merge verified work. Tag releases from here.</td></tr>
+      <tr><td><code>custom/form-rules</code></td><td>Long-lived engine customization.</td><td>Changes stay under <code>packages/form-rules/</code>.</td></tr>
+      <tr><td><code>custom/form-rules-react</code></td><td>Long-lived React adapter customization.</td><td>Changes stay under <code>packages/form-rules-react/</code>.</td></tr>
+      <tr><td><code>feature/form-rules/&lt;name&gt;</code></td><td>One engine change.</td><td>Branch from <code>custom/form-rules</code>; merge back by PR.</td></tr>
+      <tr><td><code>feature/form-rules-react/&lt;name&gt;</code></td><td>One adapter change.</td><td>Branch from <code>custom/form-rules-react</code>; merge back by PR.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Because both packages share one branch history</strong>
+    an engine version bump can be released without touching the React package. When the engine's public contract changes, update <code>@dcms/form-rules-react</code>'s exact <code>peerDependencies</code> entry for <code>@dcms/form-rules</code> in the same release train.
+  </div>
+
+  <h4>Branch names used in this repository</h4>
+  <div class="cmd"><pre><code>main
+custom/form-rules
+custom/form-rules-react</code></pre></div>
+
+  <p>Create them from <code>main</code> only once. They already exist in the prepared repository; the command is here for reference or for a fresh clone:</p>
+  <div class="cmd"><pre><code>git switch main
+git branch custom/form-rules
+git branch custom/form-rules-react
+git push origin custom/form-rules custom/form-rules-react</code></pre></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="upload">
+  <span class="step-label">Step 2</span>
+  <h2>3. Create the GitHub repository and push</h2>
+
+  <p>The local repository is already initialized on <code>main</code> with both customization branches. You only add the remote and push.</p>
+
+  <h3>Option A — GitHub CLI (recommended)</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+gh auth login
+gh repo create YOUR-GITHUB-USER/dcms-form-packages --private --source . --remote origin --push
+git push origin custom/form-rules custom/form-rules-react</code></pre></div>
+
+  <h3>Option B — create the empty repo on github.com</h3>
+  <p>Create a <strong>private, empty</strong> repository named <code>dcms-form-packages</code> (no README, no .gitignore, no license). Then:</p>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+git remote add origin https://github.com/YOUR-GITHUB-USER/dcms-form-packages.git
+git push -u origin main
+git push origin custom/form-rules custom/form-rules-react</code></pre></div>
+
+  <div class="note">
+    <strong>SSH instead of HTTPS</strong>
+    Use <code>git@github.com:YOUR-GITHUB-USER/dcms-form-packages.git</code>. Authenticate once with an SSH key or the GitHub CLI; never commit a personal access token.
+  </div>
+
+  <h4>If the first commit does not exist yet</h4>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+git add .
+git commit -m "chore: import DCMS form packages baseline"
+git branch custom/form-rules
+git branch custom/form-rules-react</code></pre></div>
+
+  <h3>Protect the release branch</h3>
+  <p>On GitHub: <strong>Settings → Branches → Add branch protection rule</strong> for <code>main</code>. Require a pull request and the <em>build</em> status check before merging. This prevents an unverified package from becoming the next release.</p>
+
+  <div class="note">
+    <strong>Repository visibility</strong>
+    Both packages are marked <code>UNLICENSED</code> and the React package is <code>private: true</code>. Keep the GitHub repository private unless the license owner approves publication.
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="customize">
+  <span class="step-label">Step 3</span>
+  <h2>4. Daily customization workflow</h2>
+
+  <p>Do not edit directly on <code>main</code>. Pick the branch that matches the package, then create a focused feature branch.</p>
+
+  <h3>Engine change (<code>@dcms/form-rules</code>)</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+git switch custom/form-rules
+git pull --ff-only
+git switch -c feature/form-rules/add-my-rule
+
+# edit only packages/form-rules/...
+
+npm ci
+npm run build:engine
+npm test
+
+git add packages/form-rules
+git commit -m "feat(form-rules): describe the customization"
+git push -u origin HEAD</code></pre></div>
+
+  <h3>React adapter change (<code>@dcms/form-rules-react</code>)</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+git switch custom/form-rules-react
+git pull --ff-only
+git switch -c feature/form-rules-react/add-my-surface
+
+# edit only packages/form-rules-react/...
+
+npm ci
+npm run build:react
+
+git add packages/form-rules-react
+git commit -m "feat(form-rules-react): describe the customization"
+git push -u origin HEAD</code></pre></div>
+
+  <p>Open a pull request from the feature branch into its customization branch. When the change is accepted, merge the customization branch into <code>main</code>:</p>
+  <div class="cmd"><pre><code>git switch main
+git pull --ff-only
+git merge --no-ff custom/form-rules
+# or: git merge --no-ff custom/form-rules-react
+git push origin main</code></pre></div>
+
+  <div class="warn">
+    <strong>Before you commit</strong>
+    Run <code>npm ci</code> (not only <code>npm install</code>) so the lockfile is respected. Never commit <code>node_modules</code>, <code>dist</code>, <code>artifacts</code> or a <code>.tgz</code>; the repository's <code>.gitignore</code> already excludes them.
+  </div>
+
+  <h3>What a customization may need if it changes public behavior</h3>
+  <table>
+    <thead><tr><th>Change</th><th>Also update</th></tr></thead>
+    <tbody>
+      <tr><td>New/changed engine export or semantics</td><td>Version in <code>packages/form-rules/package.json</code>; docs/tests; React peer version.</td></tr>
+      <tr><td>New/changed React export</td><td>Version in <code>packages/form-rules-react/package.json</code>; <code>src/index.ts</code>; README.</td></tr>
+      <tr><td>Engine version bump</td><td><code>peerDependencies["@dcms/form-rules"]</code> in the React package, then rebuild and repack the React package.</td></tr>
+      <tr><td>New runtime dependency</td><td>The engine packer bundles the runtime closure; rerun <code>npm run pack</code> and inspect the artifact.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<section id="release">
+  <span class="step-label">Step 4</span>
+  <h2>5. Build, test, pack, and publish a release</h2>
+
+  <p>Consumers install built tarballs. Build and test before packing; the packing scripts refuse to run when <code>dist/</code> or other required inputs are missing.</p>
+
+  <h3>5.1 Prepare the version</h3>
+  <ol>
+    <li>Change the version in the modified package's <code>package.json</code> (for example <code>0.10.6</code> or <code>0.4.0-parity.7</code>).</li>
+    <li>If the engine version changed, set the React package's exact peer to the new engine version.</li>
+    <li>Update the package README version heading and add release notes.</li>
+  </ol>
+
+  <h3>5.2 Verify and pack</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+npm ci
+npm run build
+npm test
+npm run pack
+
+# Inspect what will be uploaded
+ls artifacts
+tar -tzf artifacts/dcms-form-rules-0.10.6.tgz | grep -E "dist/|^package/node_modules/" | head</code></pre></div>
+
+  <p>Expected artifacts (names follow the versions in the package manifests):</p>
+  <table>
+    <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>dcms-form-rules-&lt;version&gt;.tgz</code></td><td>Engine runtime: compiled ESM/CJS, types, docs, schemas, bundled runtime dependencies.</td></tr>
+      <tr><td><code>dcms-form-rules-react-&lt;version&gt;.tgz</code></td><td>React adapter: compiled ESM and <code>.d.ts</code> files.</td></tr>
+      <tr><td><code>*.tgz.sha256</code></td><td>Checksum sidecar in <code>&lt;hash&gt;  &lt;filename&gt;</code> format.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.3 Commit, tag, push</h3>
+  <p>Use one tag per package version. The examples below release the engine; repeat with the React names when only that package changed.</p>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+
+git add packages/form-rules/package.json packages/form-rules-react/package.json
+git commit -m "release(form-rules): 0.10.6"
+
+git tag -a form-rules-v0.10.6 -m "form-rules 0.10.6"
+git push origin main
+git push origin form-rules-v0.10.6</code></pre></div>
+
+  <h3>5.4 Attach the artifacts to a GitHub Release</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS-form-packages"
+
+gh release create form-rules-v0.10.6 \
+  artifacts/dcms-form-rules-0.10.6.tgz \
+  artifacts/dcms-form-rules-0.10.6.tgz.sha256 \
+  --title "form-rules 0.10.6" \
+  --notes "Describe the customization and any consumer-visible behavior."</code></pre></div>
+
+  <p>For the React package, create a second release only when that package changed:</p>
+  <div class="cmd"><pre><code>git tag -a form-rules-react-v0.4.0-parity.7 -m "form-rules-react 0.4.0-parity.7"
+git push origin form-rules-react-v0.4.0-parity.7
+
+gh release create form-rules-react-v0.4.0-parity.7 \
+  artifacts/dcms-form-rules-react-0.4.0-parity.7.tgz \
+  artifacts/dcms-form-rules-react-0.4.0-parity.7.tgz.sha256 \
+  --title "form-rules-react 0.4.0-parity.7" \
+  --notes "Describe the adapter change."</code></pre></div>
+
+  <div class="note">
+    <strong>Tag and release names must match</strong>
+    The DCMS download command uses the tag. A release asset is not a Git branch: consumers get the exact packed file you tested, not whatever is currently on <code>main</code>.
+  </div>
+
+  <h3>5.5 Optional: automate the release with GitHub Actions</h3>
+  <p>Add <code>.github/workflows/release.yml</code> if you want GitHub to build and attach the tarballs on every package tag. The prompt in <a href="#prompts">section 9</a> generates a reviewed workflow; do not add it until the manual release has succeeded once.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="dcms">
+  <span class="step-label">Step 5</span>
+  <h2>6. Install the released packages into DCMS</h2>
+
+  <p>DCMS consumes local tarballs from <code>vendor/</code>, updates the lockfile, and builds. This is the same mechanism the app already uses, so the change is small and reversible.</p>
+
+  <h3>6.1 Download the release assets</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS"
+
+gh release download form-rules-v0.10.6 ^
+  --repo YOUR-GITHUB-USER/dcms-form-packages ^
+  --pattern "dcms-form-rules-0.10.6.tgz*" ^
+  --dir vendor</code></pre></div>
+
+  <p>In Git Bash the line continuation is <code>\</code>; in <code>cmd.exe</code> it is <code>^</code>. For the React package:</p>
+  <div class="cmd"><pre><code>gh release download form-rules-react-v0.4.0-parity.7 \
+  --repo YOUR-GITHUB-USER/dcms-form-packages \
+  --pattern "dcms-form-rules-react-0.4.0-parity.7.tgz*" \
+  --dir vendor</code></pre></div>
+
+  <p>Without the GitHub CLI, open the release page and download the two files into <code>D:\ALL PROJECTS\DCMS\vendor</code> manually.</p>
+
+  <h3>6.2 Verify the checksums</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS\vendor"
+sha256sum -c dcms-form-rules-0.10.6.tgz.sha256
+sha256sum -c dcms-form-rules-react-0.4.0-parity.7.tgz.sha256</code></pre></div>
+
+  <p>On PowerShell:</p>
+  <div class="cmd"><pre><code>Get-FileHash .\dcms-form-rules-0.10.6.tgz -Algorithm SHA256
+Get-Content .\dcms-form-rules-0.10.6.tgz.sha256</code></pre></div>
+
+  <div class="warn">
+    <strong>A failed checksum means stop.</strong>
+    Delete the downloaded file and download it again. Do not edit the sidecar or repack the tarball by hand; a mismatch means the upload or download is not the artifact that was tested.
+  </div>
+
+  <h3>6.3 Point DCMS at the new files</h3>
+  <p>Install the tarball paths; npm updates both <code>package.json</code> and <code>package-lock.json</code>.</p>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS"
+
+npm install "file:vendor/dcms-form-rules-0.10.6.tgz" --save-exact
+
+# If the React package was also released:
+npm install "file:vendor/dcms-form-rules-react-0.4.0-parity.7.tgz" --save-exact</code></pre></div>
+
+  <p>If npm reports a peer-dependency conflict for React, first confirm the app still contains the existing override, then retry with the legacy resolver:</p>
+  <div class="cmd"><pre><code>"overrides": {
+  "@dcms/form-rules-react": {
+    "react": "$react"
+  }
+}</code></pre></div>
+  <div class="cmd"><pre><code>npm install "file:vendor/dcms-form-rules-react-0.4.0-parity.7.tgz" --save-exact --legacy-peer-deps</code></pre></div>
+  <p>Prefer the override. <code>--legacy-peer-deps</code> is a fallback; it can hide a real React 18/19 incompatibility.</p>
+
+  <h3>6.4 Confirm resolution and build</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS"
+npm ls @dcms/form-rules @dcms/form-rules-react
+npm run build:clientdev</code></pre></div>
+
+  <p>Expected: both packages resolve to the new versions, the React package is marked <code>overridden</code> for its React peer, and the CRA production build completes.</p>
+
+  <h3>6.5 Run the adapter tests</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS"
+CI=true npm test -- --watchAll=false src/common/FormBuilder</code></pre></div>
+
+  <div class="note">
+    <strong>These tests do not exercise the package's ESM entry point.</strong>
+    CRA's Jest 27 cannot resolve the React package's <code>exports</code> map, so the adapter tests virtual-mock <code>@dcms/form-rules-react</code>. Real integration is proven by the CRA build plus loading the form pages in a browser. The engine package itself is exercised by the 164 Node tests in the package repository.
+  </div>
+
+  <h3>6.6 Commit the consumer change</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS"
+git add vendor package.json package-lock.json
+git commit -m "chore(deps): update DCMS form packages from release"
+git push</code></pre></div>
+
+  <p>Committing <code>vendor/</code> is intentional in this app: teammates and CI get the exact tested bytes without cloning or building the package repository.</p>
+
+  <h3>6.7 Roll back</h3>
+  <div class="cmd"><pre><code>cd "D:\ALL PROJECTS\DCMS"
+git revert HEAD --no-edit
+npm ci
+npm run build:clientdev</code></pre></div>
+  <p>Or restore the previous tarball paths in <code>package.json</code>, run <code>npm install</code>, and rebuild. Keep the old release assets on GitHub; do not overwrite a release asset in place.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="verify">
+  <span class="step-label">Checklist</span>
+  <h2>7. Verification checklist</h2>
+
+  <h3>In the package repository</h3>
+  <ul class="checklist">
+    <li><code>npm ci</code> completes from a clean checkout.</li>
+    <li><code>npm run build</code> succeeds for both workspaces.</li>
+    <li><code>npm test</code> passes all engine tests (164 at this baseline).</li>
+    <li><code>npm run pack</code> creates both tarballs and matching <code>.sha256</code> files.</li>
+    <li><code>tar -tzf</code> shows <code>package/dist/...</code> and, for the engine, <code>package/node_modules/chevrotain</code>.</li>
+    <li>The released tag points at the commit you built.</li>
+    <li>The GitHub Release contains the same checksum sidecars as <code>artifacts/</code>.</li>
+  </ul>
+
+  <h3>In DCMS</h3>
+  <ul class="checklist">
+    <li><code>sha256sum -c</code> passes for every downloaded asset.</li>
+    <li><code>package.json</code> uses the new <code>file:vendor/...</code> path.</li>
+    <li><code>npm ls @dcms/form-rules @dcms/form-rules-react</code> shows the expected versions and no invalid peer warning.</li>
+    <li>The React override is still present.</li>
+    <li><code>npm run build:clientdev</code> succeeds.</li>
+    <li>The Form Builder page loads, a form with validation rows evaluates, and Submit is enabled/disabled as expected.</li>
+    <li><code>vendor/</code>, <code>package.json</code> and <code>package-lock.json</code> are committed together.</li>
+  </ul>
+
+  <div class="tip">
+    <strong>One command summary for DCMS</strong>
+    <code>npm ci &amp;&amp; npm ls @dcms/form-rules @dcms/form-rules-react &amp;&amp; npm run build:clientdev</code>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="troubleshooting">
+  <span class="step-label">When it fails</span>
+  <h2>8. Troubleshooting</h2>
+
+  <table>
+    <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>ERESOLVE unable to resolve dependency tree</code> mentioning <code>react@19.3.0</code></td>
+        <td>The React package's peer is React 19; DCMS runs React 18.</td>
+        <td>Keep <code>overrides["@dcms/form-rules-react"].react = "$react"</code>. Retry with <code>--legacy-peer-deps</code> only if the override is present and npm still refuses.</td>
+      </tr>
+      <tr>
+        <td><code>Cannot find module '@dcms/form-rules'</code></td>
+        <td>Install not run at the DCMS root, or the <code>file:</code> path is wrong.</td>
+        <td>Run <code>npm install</code> from <code>D:\ALL PROJECTS\DCMS</code>; check that the filename in <code>package.json</code> exists exactly in <code>vendor/</code>.</td>
+      </tr>
+      <tr>
+        <td>Jest: <code>Cannot use import statement outside a module</code> or an <code>exports</code> map error</td>
+        <td>CRA's Jest 27 does not transform the ESM-only adapter package.</td>
+        <td>Keep the existing virtual mock in adapter tests. Verify the real package with <code>react-scripts build</code> and the running form pages, not by importing it directly into Jest.</td>
+      </tr>
+      <tr>
+        <td><code>Missing package input … Run npm run verify before packing</code></td>
+        <td><code>dist/</code> or another required input was not built.</td>
+        <td>Run <code>npm run build</code> (or <code>npm run pack</code>, which builds first) before packing.</td>
+      </tr>
+      <tr>
+        <td><code>Runtime closure needs multiple lodash installations</code></td>
+        <td>The workspace resolved two Lodash versions, so the engine packer cannot flatten the runtime tree.</td>
+        <td>Confirm the root <code>package.json</code> has <code>"overrides": { "lodash": "4.18.1" }</code>, then delete <code>node_modules</code> and <code>package-lock.json</code>, run <code>npm install</code>, and pack again.</td>
+      </tr>
+      <tr>
+        <td><code>spawnSync npm ENOENT</code> or <code>EINVAL</code></td>
+        <td>Node cannot spawn the npm shell shim on Windows.</td>
+        <td>Run the pack through <code>npm run pack</code>; the included tools invoke npm through <code>process.execPath</code> + <code>npm_execpath</code>.</td>
+      </tr>
+      <tr>
+        <td><code>git push</code> rejected (non-fast-forward)</td>
+        <td>Someone pushed to the branch first.</td>
+        <td><code>git pull --rebase</code>, rerun the build/tests, then push. Never force-push <code>main</code>.</td>
+      </tr>
+      <tr>
+        <td>GitHub says “Protected branch update failed”</td>
+        <td><code>main</code> requires a PR.</td>
+        <td>Push the feature branch, open a PR, and merge through GitHub.</td>
+      </tr>
+      <tr>
+        <td>Checksum mismatch in DCMS</td>
+        <td>Partial download, wrong asset, or edited tarball.</td>
+        <td>Re-download from the release; compare with the asset's published <code>.sha256</code>. Do not regenerate a sidecar to match a modified file.</td>
+      </tr>
+      <tr>
+        <td>Form behaves differently after an update</td>
+        <td>The new engine semantics were not exercised against the DCMS field/row shapes.</td>
+        <td>Revert the vendor files, then add a regression test at the adapter boundary and rerun the package's engine tests.</td>
+      </tr>
+      <tr>
+        <td>Git reports thousands of <code>node_modules</code> files</td>
+        <td>You are inside the old distribution workspace, not the clean repository.</td>
+        <td>Use <code>D:\ALL PROJECTS\DCMS-form-packages</code>; its <code>.gitignore</code> excludes dependencies, builds and artifacts.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================ -->
+<section id="prompts">
+  <span class="step-label">Copy / paste</span>
+  <h2>9. AI prompts for the risky steps</h2>
+
+  <p>Use these with a coding assistant that can open the repository. Replace every <code>&lt;placeholder&gt;</code>, keep the “do not change behavior” constraints, and review the diff and command output before committing.</p>
+
+  <div class="prompt">
+    <h4>Prompt A — prepare a release safely</h4>
+    <pre>You are working in D:\ALL PROJECTS\DCMS-form-packages, a git repository with two npm workspaces: packages/form-rules (@dcms/form-rules) and packages/form-rules-react (@dcms/form-rules-react).
+
+Task: prepare a release of <package-name> at version <new-version> from the <branch-name> branch.
+
+Follow this order and stop on the first failure:
+1. Run git status and show me any uncommitted changes before touching anything.
+2. Update only the version fields required: the package's package.json, the README heading, and — if @dcms/form-rules changes — the exact peerDependencies entry in packages/form-rules-react/package.json.
+3. Run: npm ci; npm run build; npm test; npm run pack.
+4. Report the exact artifact filenames and SHA-256 values in artifacts/.
+5. Show the proposed git commands for commit, annotated tag, push, and the gh release create command with both the .tgz and .sha256 assets.
+
+Constraints: do not change business logic, do not edit dist/ or artifacts/ by hand, do not commit node_modules, and do not push or create the GitHub release until I approve the diff and the artifact list.</pre>
+  </div>
+
+  <div class="prompt">
+    <h4>Prompt B — review a customization diff for DCMS compatibility</h4>
+    <pre>Review the diff on branch <branch-name> in D:\ALL PROJECTS\DCMS-form-packages.
+
+Context: @dcms/form-rules is the only formula/validation authority. @dcms/form-rules-react is consumed by a React 18 Create React App at D:\ALL PROJECTS\DCMS through src/common/FormBuilder/dcmsFormAdapter.js. The React package declares a React 19.3.0 peer, and the app pins it to React 18 via overrides.
+
+Check specifically:
+- Does the change alter any exported name, type, runtime value, or evaluation result that DCMS consumes?
+- Does it add a runtime dependency that the engine packer will not bundle?
+- Does an engine version bump require a matching React peer update?
+- Are errors still surfaced as controlled results rather than thrown across the host boundary?
+- Are there new browser-only APIs that would break the CRA build or Jest?
+
+Return: a short risk list, the exact files/functions affected, and proposed tests. Do not edit files yet.</pre>
+  </div>
+
+  <div class="prompt">
+    <h4>Prompt C — install a GitHub release into DCMS</h4>
+    <pre>You are working in D:\ALL PROJECTS\DCMS, a Create React App (React 18) that consumes two local tarballs from vendor/.
+
+Task: install the GitHub release <tag-name> from YOUR-GITHUB-USER/dcms-form-packages.
+
+Steps:
+1. Download the release assets matching dcms-form-rules*.tgz and dcms-form-rules-react*.tgz plus their .sha256 sidecars into vendor/.
+2. Verify every checksum with sha256sum -c (or Get-FileHash on PowerShell) and stop on mismatch.
+3. Update package.json dependency paths with npm install "file:vendor/<exact-file>.tgz" --save-exact.
+4. Preserve the existing overrides for @dcms/form-rules-react and the Jest moduleNameMapper for @formulajs/formulajs.
+5. Run npm ls @dcms/form-rules @dcms/form-rules-react and npm run build:clientdev.
+6. Show the git diff of vendor/, package.json and package-lock.json, then propose one commit.
+
+Constraints: do not upgrade React, do not remove overrides, and do not regenerate a checksum to make a download pass. If npm reports a peer conflict, explain it before adding --legacy-peer-deps.</pre>
+  </div>
+
+  <div class="prompt">
+    <h4>Prompt D — write release notes from the actual commits</h4>
+    <pre>In D:\ALL PROJECTS\DCMS-form-packages, read the commits between <previous-tag> and <new-tag> that touch <package-path>.
+
+Write GitHub release notes with:
+- A one-paragraph summary of the consumer-visible change.
+- A bullet list of behavior changes, new exports, and fixed defects.
+- A compatibility section stating the required @dcms/form-rules version, the React peer requirement, and any DCMS adapter changes.
+- A verification section listing the commands that were run.
+
+Use only facts from the commits and tests. Do not claim a behavior is verified unless a test or build output proves it.</pre>
+  </div>
+
+  <div class="prompt">
+    <h4>Prompt E — optional GitHub Actions release workflow</h4>
+    <pre>Create .github/workflows/release.yml in D:\ALL PROJECTS\DCMS-form-packages.
+
+Requirements:
+- Trigger on tags matching form-rules-v* and form-rules-react-v*.
+- Use actions/checkout and actions/setup-node with Node 22.
+- Run npm ci, npm run build, npm test, npm run pack.
+- Upload artifacts/*.tgz and artifacts/*.sha256 to the GitHub Release for the pushed tag using the built-in GITHUB_TOKEN with contents: write.
+- Do not publish to the npm registry; both packages are private/unlicensed.
+- Keep the workflow readable and pin major action versions.
+
+Show me the full file and explain any repository settings it needs. Do not commit it until I approve.</pre>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="cheatsheet">
+  <span class="step-label">Quick reference</span>
+  <h2>10. Command cheat sheet</h2>
+
+  <table>
+    <thead><tr><th>Goal</th><th>Command (from the stated folder)</th></tr></thead>
+    <tbody>
+      <tr><td>Clean install (package repo)</td><td><code>npm ci</code></td></tr>
+      <tr><td>Build both packages</td><td><code>npm run build</code></td></tr>
+      <tr><td>Run engine tests</td><td><code>npm test</code></td></tr>
+      <tr><td>Pack both tarballs + hashes</td><td><code>npm run pack</code></td></tr>
+      <tr><td>List release artifacts</td><td><code>ls artifacts</code></td></tr>
+      <tr><td>Start a feature branch</td><td><code>git switch -c feature/form-rules/&lt;name&gt; custom/form-rules</code></td></tr>
+      <tr><td>Merge customization into main</td><td><code>git switch main &amp;&amp; git merge --no-ff custom/form-rules</code></td></tr>
+      <tr><td>Tag an engine release</td><td><code>git tag -a form-rules-v&lt;version&gt; -m "form-rules &lt;version&gt;"</code></td></tr>
+      <tr><td>Publish release assets</td><td><code>gh release create &lt;tag&gt; artifacts/&lt;file&gt;.tgz artifacts/&lt;file&gt;.tgz.sha256</code></td></tr>
+      <tr><td>Download assets into DCMS</td><td><code>gh release download &lt;tag&gt; --repo &lt;owner&gt;/dcms-form-packages --pattern "*.tgz*" --dir vendor</code></td></tr>
+      <tr><td>Check installed versions</td><td><code>npm ls @dcms/form-rules @dcms/form-rules-react</code></td></tr>
+      <tr><td>DCMS production build</td><td><code>npm run build:clientdev</code></td></tr>
+      <tr><td>DCMS adapter tests</td><td><code>CI=true npm test -- --watchAll=false src/common/FormBuilder</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Why tarballs instead of a direct <code>git+https</code> dependency?</strong>
+    npm does not support installing a package from a subdirectory of a Git repository. This repo is a monorepo (<code>packages/form-rules</code>, <code>packages/form-rules-react</code>), so <code>npm install git+https://github.com/…</code> would try to install the repository root. Release tarballs are the reliable npm path and preserve the exact tested build. If you later need direct Git installs, split each package into its own repository or use a private npm registry; do not point DCMS at a branch and hope it builds.
+  </div>
+
+  <div class="tip">
+    <strong>Keep the source and the artifact in sync</strong>
+    The Git tag identifies the source commit; the release asset identifies the built bytes. Record the tag in DCMS commit messages (for example <code>form-rules-v0.10.6</code>) so a production build can be traced back to both.
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <p>Prepared for the DCMS Workbench handoff. Repository: <code>D:\ALL PROJECTS\DCMS-form-packages</code>. Consumer: <code>D:\ALL PROJECTS\DCMS</code>. Baseline versions: <code>@dcms/form-rules 0.10.5</code>, <code>@dcms/form-rules-react 0.4.0-parity.6</code>.</p>
+</footer>
+
+<script>
+  document.querySelectorAll(".cmd, .prompt").forEach(function (block) {
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "copy";
+    button.textContent = "Copy";
+    button.addEventListener("click", function () {
+      var text = block.querySelector("pre").innerText;
+      function done() {
+        button.textContent = "Copied";
+        button.classList.add("done");
+        setTimeout(function () {
+          button.textContent = "Copy";
+          button.classList.remove("done");
+        }, 1600);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, function () {
+          fallback(text);
+        });
+      } else {
+        fallback(text);
+      }
+      function fallback(value) {
+        var area = document.createElement("textarea");
+        area.value = value;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand("copy"); done(); } catch (error) { button.textContent = "Select manually"; }
+        document.body.removeChild(area);
+      }
+    });
+    block.appendChild(button);
+  });
+</script>
+
+</body>
+</html>

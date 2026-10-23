@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Generated builds
+dist/
+.pack-stage/
+release/
+.example-build/
+coverage/
+evidence/
+
+# Release outputs (uploaded as GitHub Release assets, not committed)
+artifacts/
+*.tgz
+*.sha256
+
+# Local / OS files
+*.log
+*.local
+.DS_Store
+Thumbs.db

@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dcms.local/schemas/form-definition.schema.json",
+  "title": "DCMS Form Rules - Production Form Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formId",
+    "version",
+    "fields"
+  ],
+  "properties": {
+    "formId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "\\S"
+    },
+    "version": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "\\S"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/field"
+      },
+      "maxItems": 5000
+    }
+  },
+  "$defs": {
+    "dcmsValue": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dcmsValue"
+          }
+        }
+      ]
+    },
+    "criterionValue": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string",
+          "maxLength": 16384
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8192,
+            "pattern": "\\S"
+          },
+          "maxItems": 10000
+        }
+      ]
+    },
+    "validationRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "criteria",
+        "keyword"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "\\S"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 4096
+        },
+        "operator": {
+          "enum": [
+            "AND",
+            "OR",
+            "AND NOT",
+            "OR NOT"
+          ]
+        },
+        "expression": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 8192
+        },
+        "criteria": {
+          "enum": [
+            "required_keywords",
+            "character_limit_less_than",
+            "character_limit_more_than",
+            "character_limit_equal_to",
+            "number_greater_than",
+            "number_less_than",
+            "number_equal_to",
+            "selection_values_include",
+            "selection_values_exclude",
+            "selection_values_include_any",
+            "selection_values_include_all",
+            "selection_values_exclude_any",
+            "selection_values_exclude_all"
+          ]
+        },
+        "keyword": {
+          "$ref": "#/$defs/criterionValue"
+        },
+        "caseSensitive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "valueType"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "\\S"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 4096
+        },
+        "valueType": {
+          "enum": [
+            "number",
+            "string",
+            "boolean"
+          ]
+        },
+        "mustBeCorrect": {
+          "type": "boolean"
+        },
+        "validationRows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/validationRow"
+          },
+          "maxItems": 256
+        }
+      }
+    }
+  },
+  "description": "Current validationRows format. Compile after schema validation to check references, uniqueness, total row counts, criteria types and rule semantics. Legacy in-process formats are not accepted by this authoring schema."
+}
