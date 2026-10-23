@@ -58,7 +58,8 @@ without resolving the engine's runtime tree from the registry.
 
 1. Update the version in the changed package's `package.json`.
 2. If `@dcms/form-rules` changed version, update `@dcms/form-rules-react`'s
-   `peerDependencies["@dcms/form-rules"]`.
+   `peerDependencies["@dcms/form-rules"]`, bump the React package version, and
+   release a matching React tarball in the same train (even if its code is unchanged).
 3. Run `npm ci && npm run build && npm test && npm run pack`.
 4. Commit, tag, push, and upload the matching `.tgz` + `.sha256` to a GitHub Release.
 5. In the DCMS app, copy the assets into `vendor/`, update `package.json`, run

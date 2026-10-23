@@ -230,7 +230,7 @@
   <div class="hero-inner">
     <p class="eyebrow">DCMS · custom package operations</p>
     <h1>Upload the form packages to Git and install them in DCMS</h1>
-    <p class="lede">A working guide for <code>@dcms/form-rules</code> and <code>@dcms/form-rules-react</code>: branch strategy, GitHub releases, verifiable tarballs, and the exact DCMS install steps. Every command below was run against the prepared repository.</p>
+    <p class="lede">A working guide for <code>@dcms/form-rules</code> and <code>@dcms/form-rules-react</code>: branch strategy, GitHub releases, verifiable tarballs, and the exact DCMS install steps. The build, test, pack and repository commands were run against the prepared repository; the GitHub and DCMS commands are ready to run.</p>
     <div class="meta">
       <span>Repo: D:\ALL PROJECTS\DCMS-form-packages</span>
       <span>Consumer: D:\ALL PROJECTS\DCMS</span>
@@ -498,7 +498,7 @@ git push origin main</code></pre></div>
   <h3>5.1 Prepare the version</h3>
   <ol>
     <li>Change the version in the modified package's <code>package.json</code> (for example <code>0.10.6</code> or <code>0.4.0-parity.7</code>).</li>
-    <li>If the engine version changed, set the React package's exact peer to the new engine version.</li>
+    <li>If the engine version changed, set the React package's exact peer to the new engine version, bump the React package version, and rebuild/repack it. Its code may be unchanged, but its peer contract is not.</li>
     <li>Update the package README version heading and add release notes.</li>
   </ol>
 
@@ -556,6 +556,11 @@ gh release create form-rules-react-v0.4.0-parity.7 \
   <div class="note">
     <strong>Tag and release names must match</strong>
     The DCMS download command uses the tag. A release asset is not a Git branch: consumers get the exact packed file you tested, not whatever is currently on <code>main</code>.
+  </div>
+
+  <div class="warn">
+    <strong>Engine version + React peer = release both packages</strong>
+    If the engine moves to a new version, the React package's exact peer changes. Bump the React package version and publish a new React tarball in the same release train, even when no adapter source changed. Consumers must install matching engine and adapter versions; reinstalling a tarball under an already-used version number is not supported.
   </div>
 
   <h3>5.5 Optional: automate the release with GitHub Actions</h3>
